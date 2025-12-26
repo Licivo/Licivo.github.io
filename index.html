@@ -190,13 +190,13 @@ document.addEventListener('keydown', function(e) {
                 <div class="category-count">3</div>
             </a>
         
-            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
-                LLM安全
+            <a class="category-link" href="/categories/CTF/">
+                CTF
                 <div class="category-count">1</div>
             </a>
         
-            <a class="category-link" href="/categories/CTF/">
-                CTF
+            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
+                LLM安全
                 <div class="category-count">1</div>
             </a>
         </div>
@@ -564,10 +564,10 @@ Transformer 接口Apache Commons Collections 包中定义的一个接口，该�
           <div class="truncate-text">
             
               靶机介绍Initial是一套难度为简单的靶场环境，完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。
-flag01访问题目环境是个登陆框，这是 ThinkPHP 框架，用工具扫 nday![](&#x2F;images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)这里也是存在两个漏洞，写入  webshell连接 webshell查看当前的内核用 sudo -l 查看是否有能够提权的机会，查询到 mysql 数据库无密码验证，可以直接利用sudo mysql -e &#39;\! /bin/sh&#39;  通过 MySQL 客户端执行本地 shell 的技巧但是输入后发现没什么变化，修改命令直接寻找 flag
+flag01访问题目环境是个登陆框，这是 ThinkPHP 框架，用工具扫 nday![](images&#x2F;Pasted%20image%20fd0f597f41b28d6d94dace9bab34534b 1.png)这里也是存在两个漏洞，写入  webshell连接 webshell查看当前的内核用 sudo -l 查看是否有能够提权的机会，查询到 mysql 数据库无密码验证，可以直接利用sudo mysql -e &#39;\! /bin/sh&#39;  通过 MySQL 客户端执行本地 shell 的技巧但是输入后发现没什么变化，修改命令直接寻找 flag
 1sudo mysql -e &#x27;\! find / -name fl*&#x27;
 
-find 的基本语法为 find &lt;起始路径&gt; &lt;匹配条件&gt;所以 / 的含义是从当前目录下开始寻找获取 flag01 flag0...
+find 的基本语法为 find &lt;起始路径&gt; &lt;匹配条件&gt;所以 / 的含义是从当前目录下开始寻找获取 flag01 flag01: fla...
             
           </div>
         
