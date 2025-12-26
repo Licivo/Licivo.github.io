@@ -254,6 +254,13 @@ document.addEventListener('keydown', function(e) {
           <div class="wordcount need-seperator meta-info">
             9.4k 词 
           </div>
+
+          <div class="need-seperator meta-info">
+            <i class="fa-solid fa-eye"></i>
+            <span id="busuanzi_container_page_pv" style="display: none;">
+              阅读量: <span id="busuanzi_value_page_pv"></span>
+            </span>
+          </div>
         </div>
         
       </header>
@@ -340,25 +347,26 @@ document.addEventListener('keydown', function(e) {
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>一样的调用了 key 的 hashCode 方法，也即 URL 对象的 hashCode 方法，进行了 DNS 解析。所以如果前面不把 hashCode 改回 -1 的话，反序列化是不会进行 DNS 解析的哦~</p>
 <h3 id="调用链总结"><a href="#调用链总结" class="headerlink" title="调用链总结"></a>调用链总结</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HashMap#readObject(java.io.ObjectInputStream)</span><br><span class="line">HashMap#hash(Object)</span><br><span class="line">URL#hashCode()</span><br><span class="line">URLStreamHandler#hashCode(URL)</span><br><span class="line">URLStreamHandler#getHostAddress(URL)</span><br><span class="line">InetAddress#getByName(String) # DNS 解析</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-		  <script src="https://giscus.app/client.js"
-        data-repo="Licivo/Licivo.github.io"
-        data-repo-id="R_kgDOOQU8CQ"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOOQU8Cc4C0Pub"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>
+          
+          <script src="https://giscus.app/client.js"
+            data-repo="Licivo/Licivo.github.io"
+            data-repo-id="R_kgDOOQU8CQ"
+            data-category="Announcements"
+            data-category-id="DIC_kwDOOQU8Cc4C0Pub"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-theme="preferred_color_scheme"
+            data-lang="zh-CN"
+            crossorigin="anonymous"
+            async>
+          </script>
         
       </div>
 
-         
+          
     </div>
     
      
@@ -395,7 +403,6 @@ document.addEventListener('keydown', function(e) {
 
 
 
-
     </div>
     <div id="footer-wrapper">
       <footer id="footer">
@@ -406,7 +413,21 @@ document.addEventListener('keydown', function(e) {
     Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
   </div>
 </footer>
+<div class="footer-statistics" style="margin-top: 15px; font-size: 0.85rem; color: #888; text-align: center;">
+  <span id="busuanzi_container_site_pv" style="display: none;">
+    <i class="fa-solid fa-chart-line"></i> 总访问量: <span id="busuanzi_value_site_pv" style="color: var(--color-primary); font-weight: bold;"></span> 次
+  </span>
+  <span style="margin: 0 10px; opacity: 0.3;">|</span>
+  <span id="busuanzi_container_site_uv" style="display: none;">
+    <i class="fa-solid fa-users"></i> 总访客数: <span id="busuanzi_value_site_uv" style="color: var(--color-primary); font-weight: bold;"></span> 人
+  </span>
 
+  <div style="margin-top: 10px;">
+    <a target="_blank" rel="noopener" href="https://info.flagcounter.com/xxxx" style="display:inline-block;">
+      <img src="https://s11.flagcounter.com/mini/licivo/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/" alt="Flag Counter" border="0">
+    </a>
+    </div>
+</div>
     </div>
     <div class="back-to-top-wrapper">
     <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
@@ -534,5 +555,6 @@ document.addEventListener('keydown', function(e) {
       };
     });
   </script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
