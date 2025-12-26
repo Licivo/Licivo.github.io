@@ -312,26 +312,97 @@ document.addEventListener('keydown', function(e) {
 </div>
 
 
-  <style>
-    /* 搜索遮罩层样式 */
-    #search-form-wrap {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; padding-top: 80px;
-    }
-    .search-container {
-      background: var(--color-background, #fff); width: 90%; max-width: 600px; 
-      height: fit-content; max-height: 80vh; border-radius: 12px; padding: 20px; overflow: hidden; display: flex; flex-direction: column;
-    }
-    .search-header { display: flex; align-items: center; border-bottom: 2px solid var(--color-primary); padding-bottom: 10px; }
-    #search-input { flex: 1; border: none; outline: none; font-size: 1.1rem; background: transparent; color: var(--color-text); }
-    #search-close-btn { cursor: pointer; margin-left: 10px; font-size: 1.2rem; color: #999; }
-    #search-result { margin-top: 15px; overflow-y: auto; flex: 1; }
-    .search-result-list { list-style: none; padding: 0; }
-    .search-result-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .search-result-title { font-weight: bold; color: var(--color-primary); text-decoration: none; }
-    .search-result-content { font-size: 0.9rem; color: #666; margin-top: 5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .search-keyword { color: #e91e63; font-style: normal; font-weight: bold; background: rgba(233, 30, 99, 0.1); }
-  </style>
+<style>
+  /* 搜索遮罩层 - 增加毛玻璃效果 */
+  #search-form-wrap {
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  /* 搜索容器 - 圆角和阴影 */
+  .search-container {
+    background: var(--color-background, #fff);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* 输入框区域 - 更现代的线条 */
+  .search-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 15px;
+  }
+
+  /* 搜索结果列表 - 卡片式布局 */
+  .search-result-list {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+  }
+
+  /* 单个搜索结果卡片 */
+  .search-result-item {
+    padding: 15px;
+    margin-bottom: 12px;
+    background: rgba(0,0,0,0.02); /* 轻微的背景色区分 */
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+  
+  /* 鼠标悬停效果 */
+  .search-result-item:hover {
+    background: rgba(0,0,0,0.04);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  /* 文章标题 - 使用主题主色 */
+  .search-result-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary, #4a90e2);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .search-result-title:hover {
+    text-decoration: underline;
+  }
+
+  /* 文章摘要 - 优化阅读体验 */
+  .search-result-content {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 只显示两行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 关键词高亮 - 醒目的粉色 */
+  .search-keyword {
+    color: #e91e63;
+    background: rgba(233, 30, 99, 0.08);
+    padding: 0 4px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  /* 美化滚动条 */
+  #search-result::-webkit-scrollbar { width: 6px; }
+  #search-result::-webkit-scrollbar-track { background: transparent; }
+  #search-result::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+  #search-result::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+  /* 深色模式适配 (Vivia 主题会自动切换变量) */
+  [data-theme="dark"] .search-result-item { background: rgba(255,255,255,0.05); }
+  [data-theme="dark"] .search-result-item:hover { background: rgba(255,255,255,0.08); }
+  [data-theme="dark"] .search-result-content { color: #aaa; }
+</style>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
