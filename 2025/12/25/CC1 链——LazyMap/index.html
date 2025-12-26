@@ -200,14 +200,14 @@ document.addEventListener('keydown', function(e) {
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
-                Java 反序列化
-                <div class="category-count">3</div>
-            </a>
-        
             <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
                 LLM安全
                 <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                Java 反序列化
+                <div class="category-count">3</div>
             </a>
         </div>
     </div>
@@ -260,13 +260,15 @@ document.addEventListener('keydown', function(e) {
             3.8k 词 
           </div>
 
+          
           <div class="need-seperator meta-info">
-            <i class="fa-solid fa-eye"></i>
+            <i class="fa-solid fa-fire-flame-curved" style="color: #ff5722;"></i>
             &nbsp;
             <span id="busuanzi_container_page_pv" style="display: none;">
               <span id="busuanzi_value_page_pv"></span>
             </span>
           </div>
+          
         </div>
         
       </header>
@@ -296,21 +298,23 @@ document.addEventListener('keydown', function(e) {
 <h2 id="对于LazyMap版的-CC1-链"><a href="#对于LazyMap版的-CC1-链" class="headerlink" title="对于LazyMap版的 CC1 链"></a>对于LazyMap版的 CC1 链</h2><p>因为在8u71之后的版本反序列化不再通过<code>defaultReadObject</code>方式，而是通过<code>readFields</code> 来获取几个特定的属性，<code>defaultReadObject</code> 可以恢复对象本身的类属性，比如<code>this.memberValues</code> 就能恢复成我们原本设置的恶意类，但通过<code>readFields</code>方式，<code>this.memberValues</code> 就为null，所以后续执行get()就必然没发触发，这也就是高版本不能使用的原因<br><img src="/images/Pasted%20image%2020251226082200.png"></p>
 
           
-          <script src="https://giscus.app/client.js"
-            data-repo="Licivo/Licivo.github.io"
-            data-repo-id="R_kgDOOQU8CQ"
-            data-category="Announcements"
-            data-category-id="DIC_kwDOOQU8Cc4C0Pub"
-            data-mapping="pathname"
-            data-strict="0"
-            data-reactions-enabled="1"
-            data-emit-metadata="0"
-            data-input-position="bottom"
-            data-theme="preferred_color_scheme"
-            data-lang="zh-CN"
-            crossorigin="anonymous"
-            async>
-          </script>
+          <div style="margin-top: 50px;">
+            <script src="https://giscus.app/client.js"
+              data-repo="Licivo/Licivo.github.io"
+              data-repo-id="R_kgDOOQU8CQ"
+              data-category="Announcements"
+              data-category-id="DIC_kwDOOQU8Cc4C0Pub"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="preferred_color_scheme"
+              data-lang="zh-CN"
+              crossorigin="anonymous"
+              async>
+            </script>
+          </div>
         
       </div>
 
@@ -347,10 +351,6 @@ document.addEventListener('keydown', function(e) {
 
   
 </article>
-
-
-
-
     </div>
     <div id="footer-wrapper">
       <footer id="footer">
