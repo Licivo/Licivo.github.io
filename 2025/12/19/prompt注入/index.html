@@ -131,6 +131,28 @@
   dropdownBtn.onclick = function() {
     dropdownEle.classList.toggle("hidden");
   }
+  // 在原有的 dropdownBtn 逻辑下方添加
+let searchBtn = document.getElementById("nav-search-btn");
+let searchForm = document.getElementById("search-form-wrap");
+let searchClose = document.getElementById("search-close-btn");
+
+if (searchBtn) {
+  searchBtn.onclick = function() {
+    searchForm.classList.remove("hidden");
+    document.getElementById("search-input").focus(); // 自动聚焦输入框
+  }
+}
+
+if (searchClose) {
+  searchClose.onclick = function() {
+    searchForm.classList.add("hidden");
+  }
+}
+
+// 按下 ESC 键关闭搜索
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') searchForm.classList.add("hidden");
+});
 </script>
     </div>
     <div id="sidebar-wrapper">
@@ -345,5 +367,15 @@
 
   </div>
   <script src="/js/light-dark-switch.js"></script>
+  <div id="search-form-wrap" class="hidden">
+  <div class="search-form-inner">
+    <div class="search-form-header">
+      <input type="text" id="search-input" class="search-form-input" placeholder="搜索文章...">
+      <i id="search-close-btn" class="fa-solid fa-xmark"></i>
+    </div>
+    <div id="search-result" class="search-form-result"></div>
+  </div>
+</div>
+
 </body>
 </html>
