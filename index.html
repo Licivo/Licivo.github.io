@@ -187,16 +187,11 @@ document.addEventListener('keydown', function(e) {
       <div class="category-box">
             <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
                 Java 反序列化
-                <div class="category-count">4</div>
+                <div class="category-count">6</div>
             </a>
         
             <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
                 LLM安全
-                <div class="category-count">1</div>
-            </a>
-        
-            <a class="category-link" href="/categories/Java/">
-                Java
                 <div class="category-count">1</div>
             </a>
         </div>
@@ -216,7 +211,7 @@ document.addEventListener('keydown', function(e) {
    
 
 
-<article id="post-TemplatesImpl 解析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-CC1 和 CC6 的Templateslmpld实现方式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
    
   <div class="article-inner">
     <div class="article-main">
@@ -227,7 +222,82 @@ document.addEventListener('keydown', function(e) {
   
     
       <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90/">TemplatesImpl 解析</a>
+        <a class="p-name article-title" href="/2026/01/13/CC1%20%E5%92%8C%20CC6%20%E7%9A%84Templateslmpld%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/">CC1 和 CC6 的Templateslmpld实现方式</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-01-13T02:35:47.005Z" itemprop="datePublished">2026-01-13</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            10k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              原文参考 Drunkbaby’s Blog原本的 CC1 链与 CC6 链是通过 Runtime.exec() 进行命令执行的。而很多时候服务器的代码当中的黑名单会选择禁用 Runtime。
+而 CC3 链这里呢，则是通过动态加载类加载机制来实现自动执行恶意类代码的。
+CC1链的Templateslmpld实现方式EXP：
+123456789101112131415161718192021222324252627282930313233343536373839404142434445  package org.example;  import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;  import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;  import org.apache.commons.collections.Transformer;  import org.apache.commons.collec...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/01/13/CC1%20%E5%92%8C%20CC6%20%E7%9A%84Templateslmpld%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+   
+
+
+<article id="post-TemplatesImpl 解析及 CC3 链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90%E5%8F%8A%20CC3%20%E9%93%BE/">TemplatesImpl 解析及 CC3 链</a>
       </h1>
     
   
@@ -240,13 +310,13 @@ document.addEventListener('keydown', function(e) {
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/Java/">Java</a>
+  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
    
 </div>
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            4.9k 词 
+            4.6k 词 
           </div>
 
           
@@ -280,7 +350,7 @@ getOutputProperties...
      
     <a class="right-panel  non-pic  "
       
-      href="/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90/" 
+      href="/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90%E5%8F%8A%20CC3%20%E9%93%BE/" 
     >
        
       <i class="fa-solid fa-angle-right non-pic"></i>
