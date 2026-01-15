@@ -211,6 +211,83 @@ document.addEventListener('keydown', function(e) {
    
 
 
+<article id="post-CSRF 漏洞原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/01/15/CSRF%20%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/">CSRF 漏洞原理</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-01-15T03:05:43.953Z" itemprop="datePublished">2026-01-15</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.8k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              CSRF（跨站请求伪造）通过诱导已登录用户在不知情的情况下发起状态改变请求，如修改邮箱。已登录的用户在登录的情况下，本地一般会存储 cookie受害者在不知情的情况下进入了攻击者精心布置的网站中发起了状态改变的请求
+经典攻击流程12345678910111. 用户登录银行网站(example-bank.com)   → 获得会话Cookie：sessionid=abc1232. 用户访问攻击者控制的恶意网站   → 页面包含隐藏表单或自动提交脚本3. 浏览器自动发送请求到银行   → 携带用户的合法Cookie：sessionid=abc1234. 银行验证Cookie有效   → 执行转账操作，资金转到攻击者账户
+
+CSRF的攻击类型1. GET 型 CSRFA.&lt;img&gt; 标签 (最常用，静默触发)
+这是最隐蔽的方式，因为浏览器会自动尝试加载图片的 src 属性。
+1&lt;img src=&quot;http://php-code-sec.host/delete_user.php?id=10&quot; style=&quot;display:none;&quo...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/01/15/CSRF%20%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+   
+
+
 <article id="post-CC1 和 CC6 的Templateslmpld实现方式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
    
   <div class="article-inner">
