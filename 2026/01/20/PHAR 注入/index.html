@@ -14,29 +14,23 @@
   
 
   
-  <title>TemplatesImpl 解析及 CC3 链 | Licivo&#39;s Blog</title>
+  <title>PHAR 注入 | Licivo&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="什么是TemplatesImplTemplatesImpl 全称是 com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl。 在正常开发中，它是用来处理 XSLT 模板的（一种将 XML 转换为其他格式的技术）。为了提高性能，它会把 XSLT 转换成字节码并加载。 TemplatesImpl如何实现 RCETemplatesImpl 的">
+  <meta name="description" content="PHAR 注入（也称为 PHAR 反序列化漏洞）是一种高级的 PHP 安全漏洞攻击技术。它的核心概念是：利用 PHP 的 phar:&#x2F;&#x2F; 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 unserialize() 函数的情况下，触发反序列化漏洞。 这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 unserialize() 找漏洞，而忽略">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TemplatesImpl 解析及 CC3 链">
-<meta property="og:url" content="http://example.com/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90%E5%8F%8A%20CC3%20%E9%93%BE/index.html">
+<meta property="og:title" content="PHAR 注入">
+<meta property="og:url" content="http://example.com/2026/01/20/PHAR%20%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="Licivo&#39;s Blog">
-<meta property="og:description" content="什么是TemplatesImplTemplatesImpl 全称是 com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl。 在正常开发中，它是用来处理 XSLT 模板的（一种将 XML 转换为其他格式的技术）。为了提高性能，它会把 XSLT 转换成字节码并加载。 TemplatesImpl如何实现 RCETemplatesImpl 的">
+<meta property="og:description" content="PHAR 注入（也称为 PHAR 反序列化漏洞）是一种高级的 PHP 安全漏洞攻击技术。它的核心概念是：利用 PHP 的 phar:&#x2F;&#x2F; 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 unserialize() 函数的情况下，触发反序列化漏洞。 这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 unserialize() 找漏洞，而忽略">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260112094801.png">
-<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260112101039.png">
-<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260112101100.png">
-<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260112101212.png">
-<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260112101430.png">
-<meta property="article:published_time" content="2025-12-29T08:28:38.321Z">
-<meta property="article:modified_time" content="2026-01-13T03:13:02.417Z">
+<meta property="article:published_time" content="2026-01-20T06:20:52.001Z">
+<meta property="article:modified_time" content="2026-01-20T07:19:56.179Z">
 <meta property="article:author" content="Licivo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/Pasted%20image%2020260112094801.png">
   
     <link rel="alternate" href="/atom.xml" title="Licivo's Blog" type="application/atom+xml">
   
@@ -230,7 +224,7 @@ document.addEventListener('keydown', function(e) {
        
 
 
-<article id="post-TemplatesImpl 解析及 CC3 链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+<article id="post-PHAR 注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   
     
    
@@ -243,7 +237,7 @@ document.addEventListener('keydown', function(e) {
   
     
       <h1 class="p-name article-title" itemprop="headline name">
-        TemplatesImpl 解析及 CC3 链
+        PHAR 注入
       </h1>
     
   
@@ -251,18 +245,18 @@ document.addEventListener('keydown', function(e) {
 
         <div class='meta-info-bar'>
           <div class="meta-info">
-  <time class="dt-published" datetime="2025-12-29T08:28:38.321Z" itemprop="datePublished">2025-12-29</time>
+  <time class="dt-published" datetime="2026-01-20T06:20:52.001Z" itemprop="datePublished">2026-01-20</time>
 </div>
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
+  <a class="meta-cate-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">WEB安全</a>
    
 </div>
   
           </div>
           <div class="wordcount need-seperator meta-info">
-            4.6k 词 
+            2.5k 词 
           </div>
 
           
@@ -279,86 +273,94 @@ document.addEventListener('keydown', function(e) {
 
       <div class="e-content article-entry" itemprop="articleBody">
         
-          <h1 id="什么是TemplatesImpl"><a href="#什么是TemplatesImpl" class="headerlink" title="什么是TemplatesImpl"></a>什么是TemplatesImpl</h1><p><code>TemplatesImpl</code> 全称是 <code>com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl</code>。 在正常开发中，它是用来处理 XSLT 模板的（一种将 XML 转换为其他格式的技术）。为了提高性能，它会把 XSLT 转换成字节码并加载。</p>
-<h1 id="TemplatesImpl如何实现-RCE"><a href="#TemplatesImpl如何实现-RCE" class="headerlink" title="TemplatesImpl如何实现 RCE"></a>TemplatesImpl如何实现 RCE</h1><p><code>TemplatesImpl</code> 的攻击核心在于它内部的一个成员变量：<code>_bytecodes</code>。</p>
-<h3 id="关键属性"><a href="#关键属性" class="headerlink" title="关键属性"></a>关键属性</h3><ul>
-<li><strong><code>_bytecodes</code></strong>: 一个二维字节数组 (<code>byte[][]</code>)。这里面存放的就是<strong>编译后的类文件字节码</strong>（即 <code>.class</code> 文件的二进制内容）。</li>
-<li><strong><code>_name</code></strong>: 必须不为 <code>null</code>，否则执行会提前退出。    </li>
-<li><strong><code>_class</code></strong>: 缓存加载后的类。</li>
-<li><strong><code>_tfactory</code></strong>: 在某些 JDK 版本中需要被初始化（用于反射调用）。</li>
-</ul>
-<h3 id="漏洞触发链-Call-Chain"><a href="#漏洞触发链-Call-Chain" class="headerlink" title="漏洞触发链 (Call Chain)"></a>漏洞触发链 (Call Chain)</h3><p>攻击者通常会设法触发 <code>TemplatesImpl.getOutputProperties()</code> 方法。这个方法会触发一系列内部调用：</p>
+          <p><strong>PHAR 注入</strong>（也称为 <strong>PHAR 反序列化漏洞</strong>）是一种高级的 PHP 安全漏洞攻击技术。<br>它的核心概念是：<strong>利用 PHP 的 <code>phar://</code> 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 <code>unserialize()</code> 函数的情况下，触发反序列化漏洞。</strong></p>
+<p>这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 <code>unserialize()</code> 找漏洞，而忽略了文件操作函数（如 <code>file_exists</code>）。</p>
+<h1 id="1-什么是-PHAR-文件？"><a href="#1-什么是-PHAR-文件？" class="headerlink" title="1. 什么是 PHAR 文件？"></a>1. 什么是 PHAR 文件？</h1><p>PHAR (PHP Archive) 是 PHP 的一种归档文件格式（类似于 Java 的 JAR 包）。它允许将多个 PHP 文件、资源和配置打包成一个文件。</p>
+<p>一个标准的 PHAR 文件由四个部分组成：</p>
 <ol>
-<li><strong><code>getOutputProperties()</code></strong>：这是一个公共 Getter 方法（非常容易被 Fastjson 或 Jackson 自动触发）。</li>
-<li><strong><code>newTransformer()</code></strong>：为了创建转换器，它需要获取模板实例。</li>
-<li><strong><code>getTransletInstance()</code></strong>：它会检查类是否已经加载。</li>
-<li><strong><code>defineTransletClasses()</code></strong>：<strong>核心步骤！</strong> 它会获取自定义的 <code>ClassLoader</code>，并调用 <code>defineClass</code> 将 <code>_bytecodes</code> 里的字节数组转化为 <code>Class</code> 对象。</li>
-<li><strong><code>newInstance()</code></strong>：类被加载后，紧接着会调用 <code>newInstance()</code> 创建实例。</li>
+<li><strong>Stub (存根)：</strong> PHAR 文件的头部标识。<strong>必须</strong>以 <code>__HALT_COMPILER();</code> 结尾。PHP 通过这个标识来识别这是不是一个 PHAR 文件。</li>
+<li><strong>Manifest (清单)：</strong> <strong>这是漏洞的关键</strong>。它包含了压缩文件的属性、权限等信息，以及<strong>用户自定义的元数据 (Metadata)</strong>。这些元数据是以 <strong>序列化 (Serialized)</strong> 的形式存储的。</li>
+<li><strong>File Contents (文件内容)：</strong> 被压缩的实际文件。</li>
+<li><strong>Signature (签名)：</strong> 文件完整性校验。</li>
 </ol>
-<p>只要你在 <code>_bytecodes</code> 里放入一段恶意代码（比如在静态代码块里写 <code>Runtime.getRuntime().exec(&quot;calc&quot;)</code>），当这个类被 <code>newInstance()</code> 实例化时，恶意代码就会立即执行。</p>
-<h1 id="为什么它在反序列化中这么火？"><a href="#为什么它在反序列化中这么火？" class="headerlink" title="为什么它在反序列化中这么火？"></a>为什么它在反序列化中这么火？</h1><ol>
-<li><strong>自带“加载器”</strong>：它不依赖外部的 <code>.class</code> 文件。恶意代码直接封装在序列化的 Payload 字节流中，随发随用。</li>
-<li><strong>绕过限制</strong>：即使服务器配置了严格的类路径检查，由于 <code>_bytecodes</code> 是在内存中直接定义并加载的，往往能绕过很多基于文件系统的防御。</li>
-<li><strong>Getter 触发</strong>：很多流行的 JSON 库（如 Fastjson）在解析时会尝试调用所有的 <code>getXXX</code> 方法。<code>TemplatesImpl</code> 恰好有一个 <code>getOutputProperties()</code>，这使得它成为了 Fastjson 漏洞利用的标配。</li>
-</ol>
-<h1 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 准备恶意类的字节码（继承自 AbstractTranslet）</span></span><br><span class="line"><span class="type">byte</span>[] evilBytecode = Files.readAllBytes(Paths.get(<span class="string">&quot;Evil.class&quot;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 实例化 TemplatesImpl 并通过反射注入属性</span></span><br><span class="line"><span class="type">TemplatesImpl</span> <span class="variable">obj</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">setFieldValue(obj, <span class="string">&quot;_bytecodes&quot;</span>, <span class="keyword">new</span> <span class="title class_">byte</span>[][] &#123;evilBytecode&#125;);</span><br><span class="line">setFieldValue(obj, <span class="string">&quot;_name&quot;</span>, <span class="string">&quot;AnyName&quot;</span>);</span><br><span class="line">setFieldValue(obj, <span class="string">&quot;_tfactory&quot;</span>, <span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 触发利用（在反序列化或 JSON 解析中由库自动完成）</span></span><br><span class="line">obj.getOutputProperties();</span><br></pre></td></tr></table></figure>
+<h1 id="2-漏洞原理"><a href="#2-漏洞原理" class="headerlink" title="2. 漏洞原理"></a>2. 漏洞原理</h1><p>PHAR 注入的魔力在于：<strong>只要 PHP 通过 <code>phar://</code> 协议解析一个 PHAR 文件，它就会强制将 Manifest 部分的 Metadata 进行反序列化。</strong></p>
+<p>这意味着，只要攻击者能控制任何一个<strong>文件操作函数</strong>的参数，并将其指向一个恶意的 PHAR 文件，就能触发反序列化攻击。</p>
+<p><strong>受影响的函数（不仅限于 <code>include</code>）：</strong> 这就大大扩展了攻击面。只要是涉及文件操作的函数，几乎都能触发：</p>
+<ul>
+<li><code>file_exists()</code></li>
+<li><code>is_dir()</code>, <code>is_file()</code></li>
+<li><code>file_get_contents()</code></li>
+<li><code>unlink()</code></li>
+<li><code>scandir()</code></li>
+<li><code>getimagesize()</code></li>
+</ul>
+<h2 id="攻击面"><a href="#攻击面" class="headerlink" title="攻击面"></a>攻击面</h2><table>
+<thead>
+<tr>
+<th><strong>功能场景</strong></th>
+<th><strong>可能的后端函数 (易受攻击)</strong></th>
+<th><strong>探测思路</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>头像&#x2F;图片预览</strong></td>
+<td><code>getimagesize()</code>, <code>exif_read_data()</code></td>
+<td>修改 <code>?img_path=</code> 或 <code>?file=</code> 参数，指向已上传的图片。</td>
+</tr>
+<tr>
+<td><strong>文件删除</strong></td>
+<td><code>unlink()</code></td>
+<td>这是一个绝佳的触发点。尝试删除自己的头像，但在路径处填入 <code>phar://...</code>。</td>
+</tr>
+<tr>
+<td><strong>文件是否存在</strong></td>
+<td><code>file_exists()</code>, <code>is_file()</code>, <code>is_dir()</code></td>
+<td>常见于“检查文件完整性”或加载静态资源的功能。</td>
+</tr>
+<tr>
+<td><strong>文件下载</strong></td>
+<td><code>file_get_contents()</code>, <code>readfile()</code>, <code>fopen()</code></td>
+<td>尝试读取文件时，利用 <code>phar://</code> 触发。</td>
+</tr>
+<tr>
+<td><strong>目录浏览</strong></td>
+<td><code>scandir()</code>, <code>opendir()</code>, <code>DirectoryIterator</code></td>
+<td>如果有列出目录文件的功能，尝试传入 PHAR 路径。</td>
+</tr>
+<tr>
+<td><strong>解析 XML&#x2F;压缩包</strong></td>
+<td><code>simplexml_load_file()</code>, <code>ZipArchive::open()</code></td>
+<td>某些特定格式解析库也支持流包装器。</td>
+</tr>
+<tr>
+<td><strong>数据库导入</strong></td>
+<td><code>LOAD DATA INFILE</code> (极少情况)</td>
+<td>虽然主要是 SQL 注入，但某些应用层封装可能涉及文件检查。</td>
+</tr>
+</tbody></table>
+<p>但是真实的环境下，类名通常未知，路径也未知</p>
+<h1 id="3-攻击流程"><a href="#3-攻击流程" class="headerlink" title="3. 攻击流程"></a>3. 攻击流程</h1><h2 id="第一步：构造恶意-PHAR-生成-Payload"><a href="#第一步：构造恶意-PHAR-生成-Payload" class="headerlink" title="第一步：构造恶意 PHAR (生成 Payload)"></a>第一步：构造恶意 PHAR (生成 Payload)</h2><p>攻击者在本地生成一个恶意的 PHAR 文件。这个文件会将一个带有恶意的对象序列化后写入 Metadata。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Evil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$cmd</span> = <span class="string">&#x27;whoami&#x27;</span>; <span class="comment">// 恶意命令</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;exploit.phar&quot;</span>);</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键点：设置 Stub，必须以 __HALT_COMPILER(); 结尾</span></span><br><span class="line"><span class="comment">// 可以在前面伪造 GIF 头 (GIF89a) 来绕过文件上传检测</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;GIF89a&quot;</span> . <span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键点：将恶意对象放入 Metadata</span></span><br><span class="line"><span class="variable">$o</span> = <span class="keyword">new</span> <span class="title class_">Evil</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$o</span>); </span><br><span class="line"></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">// 添加随便什么文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>同时再准备好 Evil.class</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Evil.class</span></span><br><span class="line"><span class="keyword">package</span> org.example;  </span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.DOM;  </span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.TransletException;  </span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;  </span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xml.internal.serializer.SerializationHandler;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Evil</span> <span class="keyword">extends</span> <span class="title class_">AbstractTranslet</span> &#123;  </span><br><span class="line">    <span class="keyword">static</span> &#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;open -a calculator&quot;</span>);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 必须实现 AbstractTranslet 的抽象方法（可以留空）  </span></span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transform</span><span class="params">(DOM document, SerializationHandler[] handlers)</span> <span class="keyword">throws</span> TransletException &#123;&#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transform</span><span class="params">(DOM document, com.sun.org.apache.xml.internal.dtm.DTMAxisIterator iterator, SerializationHandler handler)</span> <span class="keyword">throws</span> TransletException &#123;&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/Pasted%20image%2020260112094801.png"></p>
-<h1 id="test-class"><a href="#test-class" class="headerlink" title="test.class"></a>test.class</h1><p>进入<br><img src="/images/Pasted%20image%2020260112101039.png"><br>newTransformer()调用了 getOutputProperties()方法<br><img src="/images/Pasted%20image%2020260112101100.png"><br>这里又调用了 getTransletInstance()方法<br><img src="/images/Pasted%20image%2020260112101212.png"><br>继续深入来到 getTransletInstance()</p>
-<p>这里会先进入definTransletClasses()，而在 <code>_class[i] = loader.defineClass(_bytecodes[i]);</code><br>这一行代码利用了自定义的类加载器 <code>TransletClassLoader</code>，将存储在内存中的字节数组（<code>byte[]</code>）真正转化为 JVM 能够识别和运行的 <code>Class</code> 实例</p>
-<p>接着进入到 newInstance() 就会触发构造函数（Constructor）或静态代码块（Static Block）中编写的任何代码<br><img src="/images/Pasted%20image%2020260112101430.png"></p>
-<p>这里设计到 <code>类的初始化</code> </p>
-<h1 id="类的初始化"><a href="#类的初始化" class="headerlink" title="类的初始化"></a>类的初始化</h1><h2 id="为什么会触发静态代码"><a href="#为什么会触发静态代码" class="headerlink" title="为什么会触发静态代码"></a>为什么会触发静态代码</h2><p>在 Java 中，一个类在被使用之前，必须经历 <strong>加载 (Loading) -&gt; 链接 (Linking) -&gt; 初始化 (Initialization)</strong> 三个阶段。</p>
+<h2 id="第二步：伪装与上传-Bypass-Upload-Filters"><a href="#第二步：伪装与上传-Bypass-Upload-Filters" class="headerlink" title="第二步：伪装与上传 (Bypass Upload Filters)"></a>第二步：伪装与上传 (Bypass Upload Filters)</h2><p>由于 PHAR 的识别只看 <code>__HALT_COMPILER();</code>，攻击者可以将 PHAR 后缀改为 <code>.jpg</code>、<code>.gif</code>，甚至在文件头加上图片标识（如 GIF89a）。</p>
 <ul>
-<li><strong>加载</strong>：只是把磁盘或内存中的字节码读入 JVM（对应之前看到的 <code>defineClass</code>）。</li>
-<li><strong>初始化</strong>：这是关键。JVM 规范规定，当程序发生以下行为（被称为“主动引用”）时，必须立即对类进行初始化：<ol>
-<li>使用 <code>new</code> 关键字创建实例。</li>
-<li><strong>调用类的反射方法（如 <code>Class.forName()</code> 或 <code>newInstance()</code>）</strong>。</li>
-<li>访问类的静态变量或静态方法。<br><strong>当你调用 <code>newInstance()</code> 时：</strong> JVM 发现这个类虽然已经加载了，但还没有“初始化”，于是它会先执行类的初始化方法 <code>&lt;clinit&gt;</code>。这个 <code>&lt;clinit&gt;</code> 方法正是由编译器自动收集类中所有<strong>静态变量赋值动作</strong>和**静态语句块（static {}）合并产生的。</li>
-</ol>
+<li><strong>结果：</strong> 服务器认为这是张图片，允许上传。</li>
+</ul>
+<h2 id="第三步：触发漏洞-Trigger"><a href="#第三步：触发漏洞-Trigger" class="headerlink" title="第三步：触发漏洞 (Trigger)"></a>第三步：触发漏洞 (Trigger)</h2><p>攻击者找到一个控制文件路径的地方（例如 <code>is_file($_GET[&#39;path&#39;])</code>），并利用 <code>phar://</code> 协议指向刚才上传的文件。</p>
+<ul>
+<li><strong>Payload:</strong> <code>?path=phar://./uploads/exploit.jpg/test.txt</code> (或者直接指向文件本身，取决于具体函数)。</li>
+</ul>
+<p><strong>结果：</strong> PHP 解析 <code>phar://</code> -&gt; 读取 Metadata -&gt; <strong>自动反序列化</strong> -&gt; 触发 <code>Evil</code> 对象的 <code>__destruct()</code> -&gt; <strong>RCE (远程代码执行)</strong>。</p>
+<h1 id="4-如何防御？"><a href="#4-如何防御？" class="headerlink" title="4. 如何防御？"></a>4. 如何防御？</h1><ol>
+<li><p><strong>禁用 <code>phar://</code> 协议：</strong> 如果业务不需要，可以在 <code>php.ini</code> 中设置 <code>phar.readonly = On</code>（但这通常只阻止创建）。更好的方法是使用 <code>stream_wrapper_unregister(&#39;phar&#39;);</code> 在代码中彻底注销该协议。</p>
 </li>
-</ul>
-<h2 id="为什么会触发构造函数"><a href="#为什么会触发构造函数" class="headerlink" title="为什么会触发构造函数"></a>为什么会触发构造函数</h2><p><strong>触发机制：对象实例化（Instantiation）</strong><br><code>newInstance()</code> 的本质作用就是<strong>创建对象</strong>。它在语义上等同于调用 <code>new T()</code>。</p>
-<ul>
-<li><strong>内存分配</strong>：JVM 首先在堆内存中为新对象分配空间。</li>
-<li><strong>执行构造函数</strong>：为了确保对象进入可用状态，JVM 必须调用该类的构造函数（在字节码层面称为 <code>&lt;init&gt;</code> 方法）。    </li>
-<li><strong><code>newInstance()</code> 的特殊性</strong>：<code>Class.newInstance()</code> 专门用于调用该类的<strong>无参构造函数</strong>。</li>
-</ul>
-<p>因此，只要写的代码在无参构造函数里，<code>newInstance()</code> 一旦成功创建对象，这些代码就必然会被执行。</p>
-<h1 id="Evil-class"><a href="#Evil-class" class="headerlink" title="Evil.class"></a>Evil.class</h1><p>在 Evli.class 中实现了transform </p>
-<ol>
-<li>Java 语法层面<br>在 Java 中，如果你继承了一个抽象类：</li>
-</ol>
-<ul>
-<li><strong>规则</strong>：子类必须实现父类中所有的抽象方法，除非子类自己也声明为 <code>abstract</code>。</li>
-<li><strong>目的</strong>：抽象方法就像一份“合同”，父类规定了子类“必须具备这些功能”。如果你不实现它们，你的类就不是一个完整的类，JVM 无法通过 <code>newInstance()</code> 为它创建对象。<blockquote>
-<p>如果你不写这两个方法，代码在编译阶段（或者你在构造恶意字节码时）就会报错，提示你的类不是抽象的，且未重写相关方法。</p>
-</blockquote>
+<li><p><strong>严格过滤输入路径：</strong> 检查用户输入的文件路径是否包含 <code>phar://</code>，或者直接限制只能包含 <code>http://</code> 或纯相对路径。</p>
 </li>
-</ul>
-<ol start="2">
-<li>运行时避免 <code>ClassCastException</code></li>
+<li><p><strong>文件上传检测：</strong> 不仅仅检测文件头和后缀，还应检测文件内容是否包含 <code>__HALT_COMPILER</code> 关键字。</p>
+</li>
+<li><p><strong>业务逻辑隔离：</strong> 确保 <code>file_exists</code> 等函数的参数完全不可控，或者经过 <code>basename()</code> 处理。</p>
+</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">AbstractTranslet</span> <span class="variable">translet</span> <span class="operator">=</span> (AbstractTranslet) _class[_transletIndex].newInstance();</span><br></pre></td></tr></table></figure>
-<p>这一行代码执行了<strong>强制类型转换</strong>。</p>
-<ul>
-<li><strong>转换要求</strong>：JVM 要求 <code>newInstance()</code> 产生的对象必须确实是 <code>AbstractTranslet</code> 的实例（或者是其子类）。</li>
-<li><strong>后果</strong>：如果生成的恶意类没有 <code>extends AbstractTranslet</code>，那么在这一行会直接抛出 <code>ClassCastException</code> 异常。</li>
-<li><strong>连锁反应</strong>：既然你必须 <code>extends AbstractTranslet</code> 才能通过类型转换，那么根据第 1 点的语法规则，就必须实现它内部的抽象方法。</li>
-</ul>
-<ol start="3">
-<li>漏洞利用时<br>在利用 <code>TemplatesImpl</code> 触发 RCE 时，我们的目标是让代码执行到 <code>newInstance()</code>。但为了让程序跑得更远、不中途崩溃，我们需要满足它的逻辑检查：<br>在 <code>defineTransletClasses()</code> 方法中，有一段逻辑：</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (superClass.getName().equals(ABSTRACT_TRANSLET)) &#123;</span><br><span class="line">    _transletIndex = i; <span class="comment">// 只有父类是 AbstractTranslet，才会被认为是主类</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>关键点</strong>：如果你的类没有继承 <code>AbstractTranslet</code>，<code>_transletIndex</code> 就不会被正确赋值（保持初始值 -1）。</li>
-<li><strong>报错</strong>：随后代码会检查 <code>if (_transletIndex &lt; 0)</code>，并抛出 <code>NO_MAIN_TRANSLET_ERR</code> 异常。</li>
-</ul>
-<h1 id="调用链"><a href="#调用链" class="headerlink" title="调用链"></a>调用链</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">getOutputProperties()</span><br><span class="line">  ↓</span><br><span class="line">newTransformer()</span><br><span class="line">  ↓</span><br><span class="line">getTransletInstance() -&gt; defineTransletClasses() -&gt; loader.defineClass(_bytecodes[i]);</span><br><span class="line">  ↓</span><br><span class="line">TransletClassLoader()</span><br><span class="line">  ↓</span><br><span class="line">ClassLoader.defineClass(<span class="type">byte</span>[])</span><br><span class="line">  ↓</span><br><span class="line">_class[i].newInstance()</span><br><span class="line">  ↓</span><br><span class="line">Evil.<span class="keyword">static</span> &#123;&#125;</span><br><span class="line">  ↓</span><br><span class="line">Runtime.exec()</span><br></pre></td></tr></table></figure>
-
-<p><strong><em>newInstance()</em></strong> 是 Java 中的一个方法，主要用于通过反射机制动态创建类的新实例。它通常通过调用类的无参构造函数来生成对象。此方法在框架设计、工厂模式以及动态加载类的场景中非常常见。</p>
 
           
           <div style="margin-top: 50px;">
@@ -389,27 +391,22 @@ document.addEventListener('keydown', function(e) {
   
     
 <nav id="article-nav">
-  <a class="article-nav-btn left "
-    
-      href="/2026/01/13/CC1%20%E5%92%8C%20CC6%20%E7%9A%84Templateslmpld%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"
-      title="CC1 和 CC6 的Templateslmpld实现方式"
+  <a class="article-nav-btn left  disabled "
      >
     <i class="fa-solid fa-angle-left"></i>
     <p class="title-text">
-      
-        CC1 和 CC6 的Templateslmpld实现方式
         
     </p>
   </a>
   <a class="article-nav-btn right "
     
-      href="/2025/12/27/CC6%E9%93%BE/"
-      title="Java 反序列化之 CC6链"
+      href="/2026/01/15/CSRF%20%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/"
+      title="CSRF 漏洞原理"
      >
 
     <p class="title-text">
       
-        Java 反序列化之 CC6链
+        CSRF 漏洞原理
         
     </p>
     <i class="fa-solid fa-angle-right"></i>
