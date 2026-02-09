@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+<html theme="dark" showBanner="true" hasBanner="true" > 
+<head>
+  <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+  <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+  <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+  <script src="/js/color.global.min.js" ></script>
+  <script src="/js/load-settings.js" ></script>
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>K8S 集群安全 | Licivo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="原文参考从攻击者视角聊聊K8S集群安全 前言k8s集群基础框架构图及潜在攻击点 攻击k8s组件K8S 组件的问题主要是指各组件的不安全配置，攻击点1~4罗列了4个比较有代表性的组件问题，即 API Server 未授权访问、etcd 未授权访问、kubelet 未授权访问、kube-proxy 不安全配置。 除此之外，还有很多组件都存在着类似的安全问题，比如 dashboard、docker 等组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8S 集群安全">
+<meta property="og:url" content="http://example.com/2026/02/06/k8s%20%E9%9B%86%E7%BE%A4%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="Licivo&#39;s Blog">
+<meta property="og:description" content="原文参考从攻击者视角聊聊K8S集群安全 前言k8s集群基础框架构图及潜在攻击点 攻击k8s组件K8S 组件的问题主要是指各组件的不安全配置，攻击点1~4罗列了4个比较有代表性的组件问题，即 API Server 未授权访问、etcd 未授权访问、kubelet 未授权访问、kube-proxy 不安全配置。 除此之外，还有很多组件都存在着类似的安全问题，比如 dashboard、docker 等组">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206101945.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206102530.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206111855.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206111921.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206112204.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206112234.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260206112526.png">
+<meta property="article:published_time" content="2026-02-06T02:18:30.114Z">
+<meta property="article:modified_time" content="2026-02-06T03:30:48.916Z">
+<meta property="article:author" content="Licivo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Pasted%20image%2020260206101945.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Licivo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/avatar.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+</head>
+<body>
+  
+  
+    
+<div id="banner" class="">
+  <img src="/images/banner1.png" itemprop="image">
+  <div id="banner-dim"></div>
+</div>
+ 
+   
+  
+  <div id="main-grid" class="">
+    <div id="nav" class="">
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/" style="display: flex; align-items: center; height: 100%; padding-left: 15px;">
+      <img src="/images/avatar.png" 
+           style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-primary); box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 10px;">
+      <span style="font-weight: bold; font-size: 1.15rem; letter-spacing: 0.5px;">
+        Licivo's Blog
+      </span>
+    </a>
+  </nav>
+  
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+
+    
+      <a id="nav-search-btn" class="nav-icon" title="Search" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+</svg>
+
+      </a>
+    
+
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+    
+      <a class="nav-dropdown-link" id="nav-mobile-search">Search</a>
+    
+
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+  // 在原有的 dropdownBtn 逻辑下方添加
+let searchBtn = document.getElementById("nav-search-btn");
+let searchForm = document.getElementById("search-form-wrap");
+let searchClose = document.getElementById("search-close-btn");
+
+if (searchBtn) {
+  searchBtn.onclick = function() {
+    searchForm.classList.remove("hidden");
+    document.getElementById("search-input").focus(); // 自动聚焦输入框
+  }
+}
+
+if (searchClose) {
+  searchClose.onclick = function() {
+    searchForm.classList.add("hidden");
+  }
+}
+
+// 按下 ESC 键关闭搜索
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') searchForm.classList.add("hidden");
+});
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.png></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Licivo </div>
+      <div class="dot"></div>
+      <div class="subtitle">8bysnm@gmail.com </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/Licivo" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                Java 反序列化
+                <div class="category-count">6</div>
+            </a>
+        
+            <a class="category-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">
+                WEB安全
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
+                 代码审计
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                 云安全
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
+                LLM安全
+                <div class="category-count">1</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-k8s 集群安全" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        K8S 集群安全
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-02-06T02:18:30.114Z" itemprop="datePublished">2026-02-06</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/"> 云安全</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            5.8k 词 
+          </div>
+
+          
+          <div class="need-seperator meta-info">
+            <i class="fa-solid fa-fire-flame-curved" style="color: #ff5722; margin-right: 8px;"></i>
+            <span id="busuanzi_container_page_pv" style="display: none;">
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          </div>
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>原文参考<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/342587.html">从攻击者视角聊聊K8S集群安全</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>k8s集群基础框架构图及潜在攻击点<br><img src="/images/Pasted%20image%2020260206101945.png"></p>
+<h1 id="攻击k8s组件"><a href="#攻击k8s组件" class="headerlink" title="攻击k8s组件"></a>攻击k8s组件</h1><p>K8S 组件的问题主要是指各组件的不安全配置，攻击点1~4罗列了4个比较有代表性的组件问题，即 API Server 未授权访问、etcd 未授权访问、kubelet 未授权访问、kube-proxy 不安全配置。</p>
+<p>除此之外，还有很多组件都存在着类似的安全问题，比如 dashboard、docker 等组件也存在未授权访问的隐患，这些都是 K8S 集群的重要系统组件，一旦被攻击成功，都是可以直接获得相应集群、节点或容器的权限的。</p>
+<p>各个组件存在隐患的默认端口</p>
+<table>
+<thead>
+<tr>
+<th><strong>组件名称</strong></th>
+<th><strong>默认端口</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>api server</td>
+<td>8080&#x2F;6443</td>
+</tr>
+<tr>
+<td>dashboard</td>
+<td>8001</td>
+</tr>
+<tr>
+<td>kubelet</td>
+<td>10250&#x2F;10255</td>
+</tr>
+<tr>
+<td>etcd</td>
+<td>2379</td>
+</tr>
+<tr>
+<td>kube-proxy</td>
+<td>8001</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>2375</td>
+</tr>
+<tr>
+<td>kube-scheduler</td>
+<td>10251</td>
+</tr>
+<tr>
+<td>kube-controller-manager</td>
+<td>10252</td>
+</tr>
+</tbody></table>
+<h1 id="攻击节点对外服务"><a href="#攻击节点对外服务" class="headerlink" title="攻击节点对外服务"></a>攻击节点对外服务</h1><p>除了正常的对外业务，可能还会有一些“隐藏”的对外开放服务，这些服务本不该暴露在外网，这种情况或是管理员疏忽所致，亦或是为了方便管理而故意留的一些接口，总之也是一个潜在的攻击点。<br>案例：<br>Mysql 对外服务存在弱口令登录的问题：目标系统的其中一个节点通过 NodePort 对外映射了 Mysql 服务端口，且经过尝试，通过弱口令可登录。</p>
+<p>mysql 的攻击路径<br><img src="/images/Pasted%20image%2020260206102530.png"></p>
+<ol>
+<li><p>通过 NodePort 等对外暴露的接口直接访问 Mysql，并通过弱口令登录数据库；（对应图2中步骤1）</p>
+</li>
+<li><p>攻击应用程序，获取 pod 的 shell，在 pod 内通过环境变量发现 Mysql 服务的内网地址，然后尝试通过弱口令登录；（对应图2中步骤2-1、2-2）</p>
+</li>
+<li><p>攻击应用程序，获取 pod 的 shell，并成功逃逸到节点，利用 docker inspect 查看或直接进入当前节点运行的Mysql 容器，可以看到其环境变量保存着数据库名、root密码和数据库的登录地址等信息（前提是 Mysql 容器要和应用容器部署在同一节点上，另外环境变量中是否会保存数据库密码等敏感信息取决于 Mysql 容器的具体配置）。（对应图2中步骤3-1、3-2、3-3）</p>
+</li>
+</ol>
+<h1 id="攻击业务pod"><a href="#攻击业务pod" class="headerlink" title="攻击业务pod"></a>攻击业务pod</h1><p>在云原生环境下，上层应用程序对攻击者来说就像是集群的一个个入口，攻击应用程序的目标就是突破入口，拿到业务环境也就是业务所在 pod 的 shell。<br>Web安全发展这么多年，可利用的漏洞非常之多，一旦成功利用即可以完全接管整个业务pod。</p>
+<p>尽管进入 pod 后的权限仍然是受限的，但总算是进入了集群内部，接下来可以通过尝试更多攻击手法，比如横向、逃逸等，逐步扩大战果，直至控制整个集群。在那之前，我们对 pod 本地也可以实施一些攻击，如信息搜集、提权、拒绝服务。</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>进入一个新 pod 中，首先要做的应该是搜集当前环境的信息。<br><strong>一是搜集环境信息</strong>，为后续攻击做准备。如下是一些比较有价值的信息，可供参考：</p>
+<ul>
+<li>OS、Kernel、User 基本信息</li>
+<li>可用的 Capabilities</li>
+<li>可用的 Linux 命令</li>
+<li>挂载情况</li>
+<li>网络情况</li>
+<li>云厂商的 metadata API 信息</li>
+</ul>
+<p>**二是敏感服务发现和敏感信息扫描。**敏感服务发现可以通过扫描内网指定网段的端口，除了 K8S 组件的端口外，还有如下的常见服务端口：</p>
+<ul>
+<li>ssh：22</li>
+<li>http：80&#x2F;8080</li>
+<li>https：443&#x2F;8443</li>
+<li>mysql：3306</li>
+<li>cAdvisor：4194</li>
+<li>nodeport-service：30000-32767<br>敏感信息则包括业务相关的敏感文件（比如代码、数据库、业务涉及的 AK&#x2F;secret 或者重要的配置文件等）、环境变量（可能暴露一些敏感服务信息）、K8S 的ServiceAccount 信息（默认保存在 &#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount&#x2F; 目录下）、进程信息（有无敏感服务）等。</li>
+</ul>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>K8S 中有两种提权，一种是 pod 内提权，一种是 K8S 提权。</p>
+<h3 id="Pod-内提权"><a href="#Pod-内提权" class="headerlink" title="Pod 内提权"></a>Pod 内提权</h3><p>pod 内提权和传统 Linux 提权差不多，就是将 pod 内普通用户的 shell 提升为 root 权限的 shell。一般来讲，即使拿到了 pod 的 shell 也只能拥有普通用户的权限，此时能做的事情依旧十分有限，所以需要利用提权漏洞拿到 root 权限。提权的方式有很多，比如内核漏洞提权、sudo 提权、suid 提权、cronjob 提权等。</p>
+<p>值得一提的是，有些内核漏洞也可以用于容器逃逸，比如著名的 DirtyCow（CVE-2016-5195）、DirtyPipe（CVE-2022-0847） 等</p>
+<h3 id="K8S-提权"><a href="#K8S-提权" class="headerlink" title="K8S 提权"></a>K8S 提权</h3><p>K8S 提权的方式和场景有很多，比如 RBAC 提权，还有一些用于 K8S 提权的 Nday，比如 CVE-2018-1002105、CVE-2020-8559 等。</p>
+<h2 id="拒绝服务"><a href="#拒绝服务" class="headerlink" title="拒绝服务"></a>拒绝服务</h2><p>拒绝服务（Denial of Service，DOS）攻击可以从三个层面来看：业务、pod、集群。</p>
+<p>对业务和 pod 的 DOS 攻击可以通过使用一些压力测试工具或方法进行，主要可从 CPU、内存、存储、网络等方面进行资源耗尽型攻击。在集群外部或 pod 内都有相应的工具或方法，读者可自行搜索。</p>
+<p>在集群层面的 DOS 攻击主要可以利用 K8S 集群的软件漏洞，如 CVE-2019-11253、CVE-2019-9512、CVE-2019-9514 等。</p>
+<h1 id="容器逃逸"><a href="#容器逃逸" class="headerlink" title="容器逃逸"></a>容器逃逸</h1><p>在云攻防中，拿到容器&#x2F; pod 的 shell 往往只是攻击成功的第一步，因为容器本质上就是 Linux 中的一个进程，但是因为受到了 Namespace 和 Cgroup 等机制的诸多限制导致容器内的进程权限是非常低的，容器逃逸就是为了突破这些限制，所以其实容器逃逸也可以认为是一种提权。导致容器逃逸的原因总结起来可分为如下三类：容器不安全配置，相关组件漏洞和内核漏洞。</p>
+<h2 id="1-容器不安全配置"><a href="#1-容器不安全配置" class="headerlink" title="1. 容器不安全配置"></a>1. 容器不安全配置</h2><p>容器不安全配置分为两种情况，第一种情况是赋予了容器危险权限，第二种情况是容器挂载了危险目录。</p>
+<table>
+<thead>
+<tr>
+<th><strong>类别</strong></th>
+<th><strong>不安全配置</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>危险权限</td>
+<td>特权容器</td>
+</tr>
+<tr>
+<td></td>
+<td>cap_sys_admin</td>
+</tr>
+<tr>
+<td></td>
+<td>cap_dac_read_search</td>
+</tr>
+<tr>
+<td></td>
+<td>cap_sys_module</td>
+</tr>
+<tr>
+<td></td>
+<td>cap_sys_ptrace &amp;&amp; –pid&#x3D;host</td>
+</tr>
+<tr>
+<td>危险挂载</td>
+<td>挂载docker.sock</td>
+</tr>
+<tr>
+<td></td>
+<td>挂载procfs</td>
+</tr>
+<tr>
+<td></td>
+<td>挂载&#x2F;、&#x2F;root、&#x2F;etc等文件目录</td>
+</tr>
+<tr>
+<td></td>
+<td>以rw方式挂载lxcfs</td>
+</tr>
+<tr>
+<td></td>
+<td>pod挂载&#x2F;var&#x2F;log</td>
+</tr>
+</tbody></table>
+<p>危险权限指的是 privileged 权限（特权容器）和危险的Capabilities 权限（如 cap_sys_admin，cap_sys_module，cap_sys_dac_search 等），这些都可以在容器启动时通过启动参数设置。如前文所述，容器本质上是一个受限的进程，除了通过 Namespace 和 Cgroup限制了命名空间和资源外，还有 Capabilities、Apparmor、Seccomp 等安全机制限制了容器内进程的权限，如果容器被赋予了以上的危险权限，相当于限制容器的安全机制被打破，这就给攻击者打开了方便之门。</p>
+<p>容器挂载危险目录会导致容器文件系统隔离被打破，进而获得特权。比如如果挂载了 &#x2F;var&#x2F;run&#x2F;docker.sock，那么在容器内就能与 docker 守护进程通信，攻击者就可以创建一个特权容器然后逃逸。</p>
+<p>这里提到的是容器逃逸攻击手法中最常见的一些不安全配置，此外 CIS Docker Benchmark[3] 针对 docker 容器提出的安全配置基准多达上百条，如此多的安全配置要求也导致了相比于漏洞防护，安全配置的问题往往更容易被忽略。而对攻击者而言，容器的不安全配置往往比下文将要提到的相关程序漏洞和内核漏洞更容易检测和利用。</p>
+<h2 id="2-相关组件漏洞"><a href="#2-相关组件漏洞" class="headerlink" title="2. 相关组件漏洞"></a>2. 相关组件漏洞</h2><p>容器集群环境中包含了非常多的组件程序，它们相互协作，共同构成了庞大的容器服务生态，这些组件包括但不仅限于 runc、containerd、docker、kubelet 等。任何程序都会有漏洞，容器相关的组件程序也不例外，但是这些漏洞和容器不安全配置相比，大多数利用起来都比较困难，例如 CVE-2019-5736 就需要宿主机和容器交互才会触发，而且该漏洞是 “一次性使用” 的并且容易暴露，因为它会破坏 runc。</p>
+<p>总结了一些相关组件的常见漏洞：</p>
+<table>
+<thead>
+<tr>
+<th><strong>组件</strong></th>
+<th><strong>漏洞</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>runc</td>
+<td>CVE-2019-5736</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2019-16884</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2021-30465</td>
+</tr>
+<tr>
+<td>containerd</td>
+<td>CVE-2020-15257</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2022-23648</td>
+</tr>
+<tr>
+<td>CRI-O</td>
+<td>CVE-2022-0811</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>CVE-2018-15664</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2019-14271</td>
+</tr>
+<tr>
+<td>kubectl</td>
+<td>CVE-2018-1002100</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2019-1002101</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2019-11246</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2019-11249</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2019-11251</td>
+</tr>
+<tr>
+<td>kubelet</td>
+<td>CVE-2017-1002101</td>
+</tr>
+<tr>
+<td></td>
+<td>CVE-2021-25741</td>
+</tr>
+</tbody></table>
+<h2 id="3-内核漏洞"><a href="#3-内核漏洞" class="headerlink" title="3. 内核漏洞"></a>3. 内核漏洞</h2><p>容器和虚拟机最大的不同就是容器和宿主机共享内核，如果宿主机的内核存在漏洞，那么该主机上的所有容器都会受到影响。然而并非所有的内核漏洞都可以用于容器逃逸，下面是一些目前已知的可以用于容器逃逸的内核漏洞：</p>
+<ul>
+<li>CVE-2016-5195</li>
+<li>CVE-2017-1000112</li>
+<li>CVE-2017-7308</li>
+<li>CVE-2020-14386</li>
+<li>CVE-2021-22555</li>
+<li>CVE-2022-0185</li>
+<li>CVE-2022-0492</li>
+<li>CVE-2022-0847</li>
+</ul>
+<p>同样地，内核漏洞的 EXP 利用起来也有风险，如果盲目尝试甚至有可能会导致目标系统崩溃（如果是在内部渗透测试或对系统进行安全检查时尤其需要注意）。</p>
+<h1 id="横向攻击"><a href="#横向攻击" class="headerlink" title="横向攻击"></a>横向攻击</h1><h2 id="1-攻击其他服务"><a href="#1-攻击其他服务" class="headerlink" title="1 攻击其他服务"></a><strong>1 攻击其他服务</strong></h2><p>集群中往往会有一些通过 ClusterIP 暴露在内部的 Service，这些服务在集群外部是扫描不到的，但是在内部pod中通过前文提到的信息搜集方法就有可能发现一些敏感服务，比如通过扫描端口或查看环境变量等。</p>
+<p>案例：<br>早些时候，我们在一次内部渗透测试中就在目标 pod 的环境变量中发现了 mysql服务的地址，如图：<br><img src="/images/Pasted%20image%2020260206111855.png"><br>环境变量中的 Mysql 信息</p>
+<p>并通过尝试弱口令成功登入了 mysql 数据库：<img src="/images/Pasted%20image%2020260206111921.png"></p>
+<h2 id="2-攻击API-Server"><a href="#2-攻击API-Server" class="headerlink" title="2 攻击API Server"></a><strong>2 攻击API Server</strong></h2><p>K8S集群的 pod 和 API Server 通信是通过 ServiceAccount 的 token 验证身份的，这里存在一个攻击点就是如果 pod 的 ServiceAccount 权限过大，便可以以高权限和 API Server 通信，则有可能查看集群的一些敏感信息或者执行高权限操作，甚至进一步控制集群。</p>
+<p>token 默认保存在 pod的 &#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount&#x2F;token 文件，在实际攻击中，API Server 的地址一般可以在 pod 内通过环境变量直接查看，如图 ：<br><img src="/images/Pasted%20image%2020260206112204.png"><br>pod 环境变量中的 API Server 信息</p>
+<p>说到内网 ip 地址，另外补充一下，如果要在 pod 内攻击当前节点的 kubelet，ip 地址一般可以直接用 docker0 网桥的 ip：172.17.0.1。图5演示了在 pod 内访问当前节点 kubelet 的 10250 端口：<img src="/images/Pasted%20image%2020260206112234.png"><br>pod 内访问当前节点 kubelet 的 10250 端口</p>
+<h2 id="3-中间人攻击"><a href="#3-中间人攻击" class="headerlink" title="3 中间人攻击"></a>3 中间人攻击</h2><p>中间人攻击是一种经典的攻击方式，我们知道在 K8S 集群中 pod 之间也需要通过网络插件如 Flannel、Calico 和 Cilium 等实现网络通信，那么 K8S 集群内部的网络通信有没有可能存在中间人攻击呢？答案是有可能的。</p>
+<p>在默认配置下的 K8S 集群中，如果攻击者拿到了某个 pod 的权限，接下来就有可能通过中间人攻击，对其他 pod 实现 DNS 劫持。</p>
+<p>另外，早些年 K8S 也曝出过中间人攻击的漏洞，比如CVE-2020-8554、CVE-2020-10749。</p>
+<h1 id="攻击-K8S管理平台"><a href="#攻击-K8S管理平台" class="headerlink" title="攻击 K8S管理平台"></a>攻击 K8S管理平台</h1><p>除了官方推出的 Dashboard，还有很多 K8S 管理平台，比如 Rancher、KubeSphere、KubeOperator 等，K8S 管理平台可攻击的点除了最常见的Dashboard 未授权访问，还有弱口令登录。</p>
+<p>如图是 Rancher 的管理界面，若通过弱口令成功登录到管理后台，后续和Dashboard 未授权一样，可以通过创建特权容器然后逃逸。<br><img src="/images/Pasted%20image%2020260206112526.png"><br>通过 Rancher 创建特权容器</p>
+<p>Rancher 等管理平台是直接控制着整个集群的，一旦出现安全问题，危害十分严重。从安全的角度讲，管理平台应该尽量避免暴露在外网。</p>
+<h1 id="攻击镜像库"><a href="#攻击镜像库" class="headerlink" title="攻击镜像库"></a>攻击镜像库</h1><h2 id="1-上传恶意镜像"><a href="#1-上传恶意镜像" class="headerlink" title="1 上传恶意镜像"></a>1 上传恶意镜像</h2><p>上传恶意镜像也叫镜像投毒，指的是攻击者通过上传恶意镜像到公开仓库或受害者本地仓库，然后将恶意镜像伪装成正常镜像以引导受害者使用该镜像创建容器，从而实现入侵。根据入侵的目的一般可将恶意镜像分为两种：入侵容器的恶意后门镜像和入侵宿主机的恶意 EXP 镜像。</p>
+<p>（一）恶意后门镜像</p>
+<p>这类恶意镜像主要是为了控制容器，一般是在受害者使用镜像启动容器后，就会向攻击者反弹一个容器的 shell。这种情况下攻击者可能是为了部署挖矿程序或者攻击容器内运行的业务。</p>
+<p>（二）恶意 EXP 镜像</p>
+<p>这类恶意镜像已经不满足于只入侵容器，因为藏在其中的 Exploit 往往是为了利用容器逃逸漏洞的，其意在获得宿主机的控制权。</p>
+<h2 id="2-利用-Nday-攻击镜像库"><a href="#2-利用-Nday-攻击镜像库" class="headerlink" title="2 利用 Nday 攻击镜像库"></a><strong>2 利用 Nday 攻击镜像库</strong></h2><p>这里指的是攻击受害者本地的镜像仓库，如 Harbor、Nexus 等。Harbor 镜像库曾经就存在提权漏洞，危害十分严重。</p>
+<p>以下是网上统计的 Harbor 自发布以来的6年时间里曝出的漏洞，供参考：</p>
+<table>
+<thead>
+<tr>
+<th><strong>CVE编号</strong></th>
+<th><strong>类型</strong></th>
+<th><strong>风险级别</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CVE-2019-16097</td>
+<td>提权</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-16919</td>
+<td>提权</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-3990</td>
+<td>用户名枚举</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-19025</td>
+<td>CSRF</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-19026</td>
+<td>SQL注入</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-19029</td>
+<td>SQL注入</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2020-13788</td>
+<td>SSRF</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2020-13794</td>
+<td>用户名枚举</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2020-29662</td>
+<td>未授权访问</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-19023</td>
+<td>提权</td>
+<td>中危</td>
+</tr>
+<tr>
+<td>CVE-2019-19030</td>
+<td>枚举</td>
+<td>低危</td>
+</tr>
+</tbody></table>
+<h1 id="攻击第三方组件"><a href="#攻击第三方组件" class="headerlink" title="攻击第三方组件"></a>攻击第三方组件</h1><p>K8S 生态中还会使用一些第三方组件，比如服务网格、API 网关等，这些组件也有可能存在漏洞，比如开源 API 网关 Apache APISIX 的 RCE 漏洞、服务网格Istio 的未授权访问或 RCE 漏洞等。本文篇幅有限，不再详细讨论，感兴趣的读者可自行去了解。</p>
+
+          
+          <div style="margin-top: 50px;">
+            <script src="https://giscus.app/client.js"
+              data-repo="Licivo/Licivo.github.io"
+              data-repo-id="R_kgDOOQU8CQ"
+              data-category="Announcements"
+              data-category-id="DIC_kwDOOQU8Cc4C0Pub"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="preferred_color_scheme"
+              data-lang="zh-CN"
+              crossorigin="anonymous"
+              async>
+            </script>
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/02/06/kubernetes-goat/"
+      title="kubernetes-goat"
+     >
+
+    <p class="title-text">
+      
+        kubernetes-goat
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2026 Licivo<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+<div class="footer-statistics" style="margin-top: 15px; font-size: 0.85rem; color: #888; text-align: center;">
+  <span id="busuanzi_container_site_pv" style="display: none;">
+    <i class="fa-solid fa-chart-line"></i> 总访问量: <span id="busuanzi_value_site_pv" style="color: var(--color-primary); font-weight: bold;"></span> 次
+  </span>
+  <span style="margin: 0 10px; opacity: 0.3;">|</span>
+  <span id="busuanzi_container_site_uv" style="display: none;">
+    <i class="fa-solid fa-users"></i> 总访客数: <span id="busuanzi_value_site_uv" style="color: var(--color-primary); font-weight: bold;"></span> 人
+  </span>
+
+  <div style="margin-top: 10px;">
+    <a target="_blank" rel="noopener" href="https://info.flagcounter.com/xxxx" style="display:inline-block;">
+      <img src="https://s11.flagcounter.com/mini/licivo/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/" alt="Flag Counter" border="0">
+    </a>
+    </div>
+</div>
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+
+  <script src="/js/light-dark-switch.js"></script>
+
+  <div id="search-form-wrap" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 99999; justify-content: center; align-items: flex-start; padding-top: 80px;">
+    <div class="search-container" style="background: var(--color-background, #fff); width: 90%; max-width: 600px; max-height: 80vh; border-radius: 16px; padding: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden;">
+      <div class="search-header" style="display: flex; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 10px;">
+        <input type="text" id="search-input" style="flex: 1; border: none; outline: none; font-size: 1.1rem; background: transparent; color: var(--color-text);" placeholder="搜索文章标题或内容...">
+        <i id="search-close-btn" class="fa-solid fa-xmark" style="cursor: pointer; color: #999; font-size: 1.2rem; margin-left: 10px;"></i>
+      </div>
+      <div id="search-result" style="overflow-y: auto; flex: 1;">
+        </div>
+    </div>
+  </div>
+
+  <style>
+    .search-result-list { list-style: none; padding: 5px; margin: 0; }
+    .search-result-item { padding: 15px; margin-bottom: 12px; background: rgba(0,0,0,0.02); border-radius: 10px; transition: all 0.2s ease; border: 1px solid transparent; }
+    .search-result-item:hover { background: rgba(0,0,0,0.04); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); border-color: var(--color-primary); }
+    .search-result-title { font-size: 1.1rem; font-weight: 600; color: var(--color-primary, #4a90e2); text-decoration: none; display: block; margin-bottom: 8px; }
+    .search-result-content { font-size: 0.95rem; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .search-keyword { color: #e91e63; background: rgba(233, 30, 99, 0.08); padding: 0 4px; border-radius: 4px; font-weight: bold; font-style: normal; }
+    
+    /* 深色模式适配 */
+    [data-theme="dark"] .search-container { background: #222; border: 1px solid #444; }
+    [data-theme="dark"] .search-result-item { background: rgba(255,255,255,0.05); }
+    [data-theme="dark"] .search-result-item:hover { background: rgba(255,255,255,0.08); }
+    [data-theme="dark"] .search-result-content { color: #aaa; }
+    
+    /* 滚动条美化 */
+    #search-result::-webkit-scrollbar { width: 6px; }
+    #search-result::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchBtn = document.getElementById('nav-search-btn');
+      const searchForm = document.getElementById('search-form-wrap');
+      const searchClose = document.getElementById('search-close-btn');
+      const searchInput = document.getElementById('search-input');
+      const searchResult = document.getElementById('search-result');
+
+      if (!searchBtn || !searchForm) return;
+
+      // 1. 弹出逻辑：增加 e.preventDefault() 解决跳转问题
+      searchBtn.onclick = function(e) {
+        e.preventDefault(); // 阻止默认的跳转到页面末尾的行为
+        searchForm.style.display = 'flex';
+        searchInput.focus();
+        if (!window.searchData) loadSearchData();
+      };
+
+      searchClose.onclick = () => { searchForm.style.display = 'none'; };
+      
+      // 点击遮罩层（弹窗外）关闭
+      searchForm.onclick = (e) => { 
+        if(e.target === searchForm) searchForm.style.display = 'none'; 
+      };
+
+      // 按下 Esc 键关闭
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') searchForm.style.display = 'none';
+      });
+
+      // 2. 搜索逻辑 (Local Search)
+      async function loadSearchData() {
+        searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">正在加载索引...</div>';
+        try {
+          const res = await fetch('/search.xml');
+          const text = await res.text();
+          const xml = new DOMParser().parseFromString(text, "text/xml");
+          window.searchData = Array.from(xml.querySelectorAll('entry')).map(entry => ({
+            title: entry.querySelector('title').textContent,
+            content: entry.querySelector('content').textContent.replace(/<[^>]+>/g, ''), // 过滤 HTML 标签
+            url: entry.querySelector('url').textContent
+          }));
+          searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">索引加载完成</div>';
+        } catch (err) {
+          searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:red;">索引加载失败，请检查 search.xml</div>';
+        }
+      }
+
+      searchInput.oninput = function() {
+        const val = this.value.trim().toLowerCase();
+        if (val.length < 2) { searchResult.innerHTML = ""; return; }
+        
+        const results = window.searchData.filter(data => 
+          data.title.toLowerCase().includes(val) || data.content.toLowerCase().includes(val)
+        );
+
+        if (results.length === 0) {
+          searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">未找到相关文章</div>';
+          return;
+        }
+
+        searchResult.innerHTML = `<ul class="search-result-list">${results.map(data => `
+          <li class="search-result-item">
+            <a href="${data.url}" class="search-result-title">${data.title.replace(new RegExp(val, 'gi'), m => `<em class="search-keyword">${m}</em>`)}</a>
+            <p class="search-result-content">${data.content.substring(0, 150)}...</p>
+          </li>`).join('')}</ul>`;
+      };
+    });
+  </script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+</html>
