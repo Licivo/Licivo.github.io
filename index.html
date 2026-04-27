@@ -187,7 +187,7 @@ document.addEventListener('keydown', function(e) {
       <div class="category-box">
             <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
                 Java 反序列化
-                <div class="category-count">7</div>
+                <div class="category-count">9</div>
             </a>
         
             <a class="category-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">
@@ -200,14 +200,14 @@ document.addEventListener('keydown', function(e) {
                 <div class="category-count">2</div>
             </a>
         
-            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
-                 云安全
-                <div class="category-count">2</div>
-            </a>
-        
             <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
                 LLM安全
                 <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                 云安全
+                <div class="category-count">2</div>
             </a>
         </div>
     </div>
@@ -223,6 +223,81 @@ document.addEventListener('keydown', function(e) {
     </div>
     <div id="content-body">
       
+   
+
+
+<article id="post-CC7 链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/04/16/CC7%20%E9%93%BE/">Java 反序列化之 CC7链</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-04-16T01:45:28.229Z" itemprop="datePublished">2026-04-16</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            6.1k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              0x01 前言CC7的入口是 Hashtable ，后半条链子也是 Lazymap.get() 这条链子
+0x02 CC7链分析首先定位到入口类 Hashtable 跟进看一下
+在 Hashtable 入口类中， ReadObject 调用了 reconstiutionPut 方法跟进 reconstiutionPut()
+1234567891011121314151617181920private void reconstitutionPut(Entry&lt;?,?&gt;[] tab, K key, V value)      throws StreamCorruptedException  &#123;      if (value == null) &#123;          throw new java.io.StreamCorruptedException();      &#125;      // Makes sure the key is not already in the hashtable.      // This should not happe...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/04/16/CC7%20%E9%93%BE/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
    
 
 
@@ -484,6 +559,89 @@ kube-controller-manager
     <a class="right-panel  non-pic  "
       
       href="/2026/02/06/kubernetes-goat/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+   
+
+
+<article id="post-CC2 链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/02/05/CC2%20%E9%93%BE/">CC2链</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-02-05T00:49:28.306Z" itemprop="datePublished">2026-02-05</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            5.3k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              PriorityQueue它的核心作用就是
+
+维护一个“按优先级自动排序”的队列，每次取出的都是优先级最高（或最低）的元素。
+
+但是这里面的 PriorityQueue 实现了Serializable
+12public class PriorityQueue&lt;E&gt; extends AbstractQueue&lt;E&gt;        implements Serializable
+
+所以它在反序列化时会进入自己的
+1private void readObject(ObjectInputStream s)
+
+在 readObject()里会重新堆化(heapify)
+1234567891011121314151617private void readObject(java.io.ObjectInputStream s)      throws java.io.IOException, ClassNotFoundException &#123;      // Read in size, and any hidden stuff      s.defaultRead...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/02/05/CC2%20%E9%93%BE/" 
     >
        
       <i class="fa-solid fa-angle-right non-pic"></i>
@@ -859,166 +1017,6 @@ CC1链的Templateslmpld实现方式EXP：
     <a class="right-panel  non-pic  "
       
       href="/2026/01/13/CC1%20%E5%92%8C%20CC6%20%E7%9A%84Templateslmpld%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-   
-
-
-<article id="post-TemplatesImpl 解析及 CC3 链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90%E5%8F%8A%20CC3%20%E9%93%BE/">TemplatesImpl 解析及 CC3 链</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-12-29T08:28:38.321Z" itemprop="datePublished">2025-12-29</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            4.6k 词 
-          </div>
-
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              什么是TemplatesImplTemplatesImpl 全称是 com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl。 在正常开发中，它是用来处理 XSLT 模板的（一种将 XML 转换为其他格式的技术）。为了提高性能，它会把 XSLT 转换成字节码并加载。
-TemplatesImpl如何实现 RCETemplatesImpl 的攻击核心在于它内部的一个成员变量：_bytecodes。
-关键属性
-_bytecodes: 一个二维字节数组 (byte[][])。这里面存放的就是编译后的类文件字节码（即 .class 文件的二进制内容）。
-_name: 必须不为 null，否则执行会提前退出。    
-_class: 缓存加载后的类。
-_tfactory: 在某些 JDK 版本中需要被初始化（用于反射调用）。
-
-漏洞触发链 (Call Chain)攻击者通常会设法触发 TemplatesImpl.getOutputProperties() 方法。这个方法会触发一系列内部调用：
-
-getOutputProperties...
-            
-          </div>
-        
-      </div>
-
-          
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/12/29/TemplatesImpl%20%E8%A7%A3%E6%9E%90%E5%8F%8A%20CC3%20%E9%93%BE/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-   
-
-
-<article id="post-CC6链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2025/12/27/CC6%E9%93%BE/">Java 反序列化之 CC6链</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2025-12-27T06:36:41.400Z" itemprop="datePublished">2025-12-27</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">Java 反序列化</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            8.3k 词 
-          </div>
-
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              环境搭建
-Jdk 8u71
-Comoons-Collections 3.2.1
-
-CC6链分析TideMapEntry类 根据 ysoSerial 官方的链子，是 TiedMapEntry 类中的 getValue() 方法调用了 LazyMap 的 get() 方法。 123456789 public Object get(Object key) &#123;      // create value for key if key is not currently in the map      if (map.containsKey(key) == false) &#123;          Object value = factory.transform(key);          map.put(key, value);          return value;      &#125;      return map.get(key);  &#125;
-先在此用 decorate 调用链写个 EXP
-12345678910111213141516171819202...
-            
-          </div>
-        
-      </div>
-
-          
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2025/12/27/CC6%E9%93%BE/" 
     >
        
       <i class="fa-solid fa-angle-right non-pic"></i>
