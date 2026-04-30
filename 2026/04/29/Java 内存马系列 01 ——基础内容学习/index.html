@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+<html theme="dark" showBanner="true" hasBanner="true" > 
+<head>
+  <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+  <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+  <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+  <script src="/js/color.global.min.js" ></script>
+  <script src="/js/load-settings.js" ></script>
+  <head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>Java 内存马系列 01 ——基础内容学习 | Licivo&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="Java Web三大件JavaWeb 三大件也就是 Servlet，Filter，Listener当 Tomcat 收到请求时，依次会经过 Listener&gt;Filtener&gt;Servlet请求流程就是 123456789客户端请求   ↓Filter 过滤&#x2F;增强   ↓Servlet 处理业务请求   ↓Filter 处理响应   ↓客户端响应 Servlet什么是ServletSe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 内存马系列 01 ——基础内容学习">
+<meta property="og:url" content="http://example.com/2026/04/29/Java%20%E5%86%85%E5%AD%98%E9%A9%AC%E7%B3%BB%E5%88%97%2001%20%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E5%86%85%E5%AE%B9%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Licivo&#39;s Blog">
+<meta property="og:description" content="Java Web三大件JavaWeb 三大件也就是 Servlet，Filter，Listener当 Tomcat 收到请求时，依次会经过 Listener&gt;Filtener&gt;Servlet请求流程就是 123456789客户端请求   ↓Filter 过滤&#x2F;增强   ↓Servlet 处理业务请求   ↓Filter 处理响应   ↓客户端响应 Servlet什么是ServletSe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260429164909.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260430093345.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260430093600.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260430101543.png">
+<meta property="article:published_time" content="2026-04-29T07:57:04.188Z">
+<meta property="article:modified_time" content="2026-04-30T03:19:34.054Z">
+<meta property="article:author" content="Licivo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Pasted%20image%2020260429164909.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Licivo's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/avatar.png">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+</head>
+<body>
+  
+  
+    
+<div id="banner" class="">
+  <img src="/images/banner1.png" itemprop="image">
+  <div id="banner-dim"></div>
+</div>
+ 
+   
+  
+  <div id="main-grid" class="">
+    <div id="nav" class="">
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/" style="display: flex; align-items: center; height: 100%; padding-left: 15px;">
+      <img src="/images/avatar.png" 
+           style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-primary); box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 10px;">
+      <span style="font-weight: bold; font-size: 1.15rem; letter-spacing: 0.5px;">
+        Licivo's Blog
+      </span>
+    </a>
+  </nav>
+  
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">Home</a>
+    
+      <a class="main-nav-link" href="/archives">Archives</a>
+    
+      <a class="main-nav-link" href="/about">About</a>
+    
+  </nav>
+
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+
+    
+      <a id="nav-search-btn" class="nav-icon" title="Search" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+    <path d="M0 0h24v24H0V0z" fill="none"/>
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+</svg>
+
+      </a>
+    
+
+    
+      <a id="nav-rss-link" class="nav-icon mobile-hide" href="/atom.xml" title="RSS 订阅">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M198-120q-25.846 0-44.23-18.384-18.384-18.385-18.384-44.23 0-25.846 18.384-44.23 18.384-18.385 44.23-18.385 25.846 0 44.23 18.385 18.384 18.384 18.384 44.23 0 25.845-18.384 44.23Q223.846-120 198-120Zm538.385 0q-18.846 0-32.923-13.769-14.076-13.769-15.922-33.23-8.692-100.616-51.077-188.654-42.385-88.039-109.885-155.539-67.5-67.501-155.539-109.885Q283-663.462 182.385-672.154q-19.461-1.846-33.23-16.23-13.769-14.385-13.769-33.846t14.076-32.922q14.077-13.461 32.923-12.23 120.076 8.692 226.038 58.768 105.961 50.077 185.73 129.846 79.769 79.769 129.846 185.731 50.077 105.961 58.769 226.038 1.231 18.846-12.538 32.922Q756.461-120 736.385-120Zm-252 0q-18.231 0-32.423-13.461t-18.653-33.538Q418.155-264.23 348.886-333.5q-69.27-69.27-166.501-84.423-20.077-4.462-33.538-18.961-13.461-14.5-13.461-33.346 0-19.076 13.884-33.23 13.884-14.153 33.115-10.922 136.769 15.384 234.384 112.999 97.615 97.615 112.999 234.384 3.231 19.23-10.538 33.115Q505.461-120 484.385-120Z"/></svg>
+      </a>
+    
+
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">Home</a>
+    
+      <a class="nav-dropdown-link" href="/archives">Archives</a>
+    
+      <a class="nav-dropdown-link" href="/about">About</a>
+    
+    
+    
+      <a class="nav-dropdown-link" id="nav-mobile-search">Search</a>
+    
+
+    
+      <a class="nav-dropdown-link" href="/atom.xml" title="RSS 订阅">RSS</a>
+     
+    </div>
+</div>
+
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+  // 在原有的 dropdownBtn 逻辑下方添加
+let searchBtn = document.getElementById("nav-search-btn");
+let searchForm = document.getElementById("search-form-wrap");
+let searchClose = document.getElementById("search-close-btn");
+
+if (searchBtn) {
+  searchBtn.onclick = function() {
+    searchForm.classList.remove("hidden");
+    document.getElementById("search-input").focus(); // 自动聚焦输入框
+  }
+}
+
+if (searchClose) {
+  searchClose.onclick = function() {
+    searchForm.classList.add("hidden");
+  }
+}
+
+// 按下 ESC 键关闭搜索
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') searchForm.classList.add("hidden");
+});
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+        <image src=/images/avatar.png></image>
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Licivo </div>
+      <div class="dot"></div>
+      <div class="subtitle">8bysnm@gmail.com </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/Licivo" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                Java 反序列化
+                <div class="category-count">9</div>
+            </a>
+        
+            <a class="category-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">
+                WEB安全
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                 云安全
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
+                 代码审计
+                <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
+                LLM安全
+                <div class="category-count">1</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-Java 内存马系列 01 ——基础内容学习" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        Java 内存马系列 01 ——基础内容学习
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-04-29T07:57:04.188Z" itemprop="datePublished">2026-04-29</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+    未分类 
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            8.4k 词 
+          </div>
+
+          
+          <div class="need-seperator meta-info">
+            <i class="fa-solid fa-fire-flame-curved" style="color: #ff5722; margin-right: 8px;"></i>
+            <span id="busuanzi_container_page_pv" style="display: none;">
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          </div>
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="Java-Web三大件"><a href="#Java-Web三大件" class="headerlink" title="Java Web三大件"></a>Java Web三大件</h2><p>JavaWeb 三大件也就是 Servlet，Filter，Listener<br>当 Tomcat 收到请求时，依次会经过 Listener&gt;Filtener&gt;Servlet<br>请求流程就是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">客户端请求</span><br><span class="line">   ↓</span><br><span class="line">Filter 过滤/增强</span><br><span class="line">   ↓</span><br><span class="line">Servlet 处理业务请求</span><br><span class="line">   ↓</span><br><span class="line">Filter 处理响应</span><br><span class="line">   ↓</span><br><span class="line">客户端响应</span><br></pre></td></tr></table></figure>
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><h3 id="什么是Servlet"><a href="#什么是Servlet" class="headerlink" title="什么是Servlet"></a>什么是Servlet</h3><p>Servlet 运行在 Web 容器里的 Java 程序，用来接受浏览器或客户端发送来的HTTP 请求，然后生成 HTTP响应返回去</p>
+<p>它主要负责：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">它主要负责：</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> 接收请求参数</span><br><span class="line"><span class="number">2.</span> 调用 Java 业务代码</span><br><span class="line"><span class="number">3.</span> 操作 request / session / application 数据</span><br><span class="line"><span class="number">4.</span> 返回 HTML、JSON 或跳转页面</span><br></pre></td></tr></table></figure>
+
+<h3 id="请求处理过程"><a href="#请求处理过程" class="headerlink" title="请求处理过程"></a>请求处理过程</h3><h4 id="1-浏览器发送-HTTP-请求"><a href="#1-浏览器发送-HTTP-请求" class="headerlink" title="1. 浏览器发送 HTTP 请求"></a>1. 浏览器发送 HTTP 请求</h4><pre><code>比如访问：http://localhost:8080/demo/hello?name=Tom
+浏览器会发送一个 HTTP 请求，请求包含：
+</code></pre>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请求方法：GET</span><br><span class="line">请求路径：/demo/hello</span><br><span class="line">请求参数：name=Tom</span><br><span class="line">请求头：User-Agent、Cookie 等</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Tomcat接并解析请求"><a href="#2-Tomcat接并解析请求" class="headerlink" title="2. Tomcat接并解析请求"></a>2. Tomcat接并解析请求</h4><p>Tomcat收到请求后，会解析出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">请求路径</span><br><span class="line">请求方法</span><br><span class="line">请求参数</span><br><span class="line">请求头</span><br><span class="line">Cookie</span><br><span class="line">请求体</span><br></pre></td></tr></table></figure>
+<p>然后把这些信息封装成两个对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttPServletRequest request</span><br><span class="line">HttpServletResponse response</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Tomcat-找到对应的应用"><a href="#3-Tomcat-找到对应的应用" class="headerlink" title="3.Tomcat 找到对应的应用"></a>3.Tomcat 找到对应的应用</h4><p>请求路径是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/demo/hello</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/demo  → 项目名，也叫 context path</span><br><span class="line">/hello → Servlet 映射路径</span><br></pre></td></tr></table></figure>
+<p>Tomcat 会先找到 <code>/demo</code> 这个 Web 应用。</p>
+<h4 id="4-匹配-Filter"><a href="#4-匹配-Filter" class="headerlink" title="4.匹配 Filter"></a>4.匹配 Filter</h4><p>如果项目中配置了 Filter，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@WebFilter(&quot;/*&quot;)</span><br><span class="line">public class LoginFilter implements Filter &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么请求会先进入 Filter。</p>
+<h4 id="5-匹配Servle"><a href="#5-匹配Servle" class="headerlink" title="5. 匹配Servle"></a>5. 匹配Servle</h4><p>Tomcat 根据URL找到对应的Servlet<br>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请求路径 <code>/hello</code> 就会交给这个 Servlet 处理。</p>
+<h4 id="6-调用Servlet-的-servlet-方法"><a href="#6-调用Servlet-的-servlet-方法" class="headerlink" title="6.调用Servlet 的 servlet()方法"></a>6.调用Servlet 的 servlet()方法</h4><p>Tomcat会先调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service(request,response)</span><br></pre></td></tr></table></figure>
+<p>service()方法会根据请求方式再分发：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET     → doGet()</span><br><span class="line">POST    → doPost()</span><br><span class="line">PUT     → doPut()</span><br><span class="line">DELETE  → doDelete()</span><br></pre></td></tr></table></figure>
+<p>比如浏览器普通访问一般是 GET 请求，所以最终调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doGet(request, response);</span><br></pre></td></tr></table></figure>
+
+<p>doXXX方法中就是自己写的业务逻辑</p>
+<h2 id="servlet-的生命周期"><a href="#servlet-的生命周期" class="headerlink" title="servlet 的生命周期"></a>servlet 的生命周期</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">加载 Servlet 类</span><br><span class="line">   ↓</span><br><span class="line">创建 Servlet 对象</span><br><span class="line">   ↓</span><br><span class="line">调用 init() 初始化</span><br><span class="line">   ↓</span><br><span class="line">调用 service() 处理请求</span><br><span class="line">   ↓</span><br><span class="line">调用 destroy() 销毁</span><br></pre></td></tr></table></figure>
+
+<h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><h3 id="FIlter简介"><a href="#FIlter简介" class="headerlink" title="FIlter简介"></a>FIlter简介</h3><p>filter 也称之为过滤器，是对 Servlet 技术的一个强补充，其主要功能是在 HttpServletRequest 到达 Servlet 之前，拦截客户的 HttpServletRequest ，根据需要检查 HttpServletRequest，也可以修改 HttpServletRequest 头和数据；在 HttpServletResponse 到达客户端之前，拦截 HttpServletResponse ，根据需要检查 HttpServletResponse，也可以修改 HttpServletResponse 头和数据。</p>
+<p><img src="/images/Pasted%20image%2020260429164909.png"></p>
+<ul>
+<li>其实这个地方，我们想办法在 Filter 前自己创建一个 filter 并且将其放到最前面，我们的 filter 就会最先执行，当我们在 filter 中添加恶意代码，就会进行命令执行，这样也就成为了一个内存 Webshell</li>
+</ul>
+<h3 id="基本工作原理"><a href="#基本工作原理" class="headerlink" title="基本工作原理"></a>基本工作原理</h3><p>1、Filter 程序是一个实现了特殊接口的 Java 类，与 Servlet 类似，也是由 Servlet 容器进行调用和执行的。</p>
+<p>2、当在 web.xml 注册了一个 Filter 来对某个 Servlet 程序进行拦截处理时，它可以决定是否将请求继续传递给 Servlet 程序，以及对请求和响应消息是否进行修改。</p>
+<p>3、当 Servlet 容器开始调用某个 Servlet 程序时，如果发现已经注册了一个 Filter 程序来对该 Servlet 进行拦截，那么容器不再直接调用 Servlet 的 service 方法，而是调用 Filter 的 doFilter 方法，再由 doFilter 方法决定是否去激活 service 方法。</p>
+<p>4、但在 Filter.doFilter 方法中不能直接调用 Servlet 的 service 方法，而是调用 FilterChain.doFilter 方法来激活目标 Servlet 的 service 方法，FilterChain 对象时通过 Filter.doFilter 方法的参数传递进来的。</p>
+<p>5、只要在 Filter.doFilter 方法中调用 FilterChain.doFilter 方法的语句前后增加某些程序代码，这样就可以在 Servlet 进行响应前后实现某些特殊功能。</p>
+<p>6、如果在 Filter.doFilter 方法中没有调用 FilterChain.doFilter 方法，则目标 Servlet 的 service 方法不会被执行，这样通过 Filter 就可以阻止某些非法的访问请求。</p>
+<h3 id="Filter的生命周期"><a href="#Filter的生命周期" class="headerlink" title="Filter的生命周期"></a>Filter的生命周期</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建对象 → 初始化 init() → 拦截请求 doFilter() → 销毁 destroy()</span><br></pre></td></tr></table></figure>
+
+<p>与 servlet 一样，Filter 的创建和销毁也由 Web 容器负责。Web 应用程序启动时，Web 服务器将创建 Filter 的实例对象，并调用其 init() 方法，读取 web.xml 配置，完成对象的初始化功能，从而为后续的用户请求作好拦截的准备工作（filter 对象只会创建一次，init 方法也只会执行一次）。开发人员通过init方法的参数，可获得代表当前filter配置信息的FilterConfig对象。 Filter 对象创建后会驻留在内存，当 Web 应用移除或服务器停止时才销毁。在 Web 容器卸载 Filter 对象之前被调用。该方法在 Filter 的生命周期中仅执行一次。在这个方法中，可以释放过滤器使用的资源。</p>
+<p>示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter(&quot;/*&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LifeFilter</span> <span class="keyword">implements</span> <span class="title class_">Filter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LifeFilter</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;1. 创建 Filter 对象&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;2. init 初始化&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest request,</span></span><br><span class="line"><span class="params">                         ServletResponse response,</span></span><br><span class="line"><span class="params">                         FilterChain chain)</span></span><br><span class="line">            <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;3. doFilter 请求前&quot;</span>);</span><br><span class="line"></span><br><span class="line">        chain.doFilter(request, response);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;4. doFilter 响应后&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;5. destroy 销毁&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Filter-链"><a href="#Filter-链" class="headerlink" title="Filter 链"></a>Filter 链</h3><p><strong>多个 Filter 按照一定顺序串起来，形成一条请求处理链。</strong><br>一个请求进入 Servlet 之前，可能不只经过一个 Filter，而是依次经过多个 Filter。<br>比如有三个 Filter：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EncodingFilter    编码过滤器</span><br><span class="line">LoginFilter       登录过滤器</span><br><span class="line">LogFilter         日志过滤器</span><br></pre></td></tr></table></figure>
+<p>核心靠这一句往下传：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chain.doFilter(request, response);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h2><p>Java Web 开发中的监听器（Listener）就是 Application、Session 和 Request 三大对象创建、销毁或者往其中添加、修改、删除属性时自动执行代码的功能组件。</p>
+<p>ServletContextListener：对Servlet上下文的创建和销毁进行监听； ServletContextAttributeListener：监听 Servlet 上下文属性的添加、删除和替换；</p>
+<p>HttpSessionListener：对 Session 的创建和销毁进行监听。Session 的销毁有两种情况，一个中 Session 超时，还有一种是通过调用 Session 对象的 invalidate() 方法使 session 失效。</p>
+<p>HttpSessionAttributeListener：对 Session 对象中属性的添加、删除和替换进行监听；</p>
+<p>ServletRequestListener：对请求对象的初始化和销毁进行监听； ServletRequestAttributeListener：对请求对象属性的添加、删除和替换进行监听。</p>
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><p>可以使用监听器监听客户端的请求、服务端的操作等。通过监听器，可以自动出发一些动作，比如监听在线的用户数量，统计网站访问量、网站访问监控等。</p>
+<h2 id="Tomcat-的基础介绍"><a href="#Tomcat-的基础介绍" class="headerlink" title="Tomcat 的基础介绍"></a>Tomcat 的基础介绍</h2><p><strong>Tomcat 就是 Java Web 项目的运行容器，它接收浏览器请求，调用 Servlet 处理请求，再把响应返回给浏览器。</strong><br>主要负责：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">监听端口</span><br><span class="line">接收 HTTP 请求</span><br><span class="line">解析请求</span><br><span class="line">找到 Web 应用</span><br><span class="line">匹配 Servlet / Filter / Listener</span><br><span class="line">创建 request / response 对象</span><br><span class="line">调用 Servlet</span><br><span class="line">返回 HTTP 响应</span><br><span class="line">管理 Web 应用生命周期</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tomcat与Servlet的关系"><a href="#Tomcat与Servlet的关系" class="headerlink" title="Tomcat与Servlet的关系"></a>Tomcat与Servlet的关系</h3><p>我们根据上面的基础知识可以知道 <strong>Tomcat 是 Web 应用服务器，是一个 Servlet&#x2F;JSP 容器</strong>，而 Servlet 容器从上到下分别是 Engine、Host、Context、Wrapper。</p>
+<p>在 Tomcat 中 Wrapper 代表一个独立的 servlet 实例， StandardWrapper 是 Wrapper 接口的标准实现类（StandardWrapper 的主要任务就是载入 Servlet 类并且进行实例化），同时其从 ContainerBase 类继承过来，表示他是一个容器，只是他是最底层的容器，不能再含有任何的子容器了，且其父容器只能是 context。而我们在也就是需要在这里去载入我们自定义的 Servlet 加载我们的内存马。</p>
+<h2 id="Tomcat-的原理"><a href="#Tomcat-的原理" class="headerlink" title="Tomcat 的原理"></a>Tomcat 的原理</h2><p>Tomcat 的框架如下图所示，主要有 server、service、connector、container 四个部分<br><img src="/images/Pasted%20image%2020260430093345.png"></p>
+<p>图中可以看出 Tomcat 的心脏是两个组件：Connector 和 Container：<br>Connector 主要负责对外交流，进行 Socket 通信(基于 TCP&#x2F;IP)，解析 HTTP 报文，对应下图中的http服务器；</p>
+<p>Container 主要处理 Connector 接受的请求，主要是处理内部事务，加载和管理 Servlet，由 Servlet 具体负责处理 Request 请求，对应下图中的 servlet 容器。<br><img src="/images/Pasted%20image%2020260430093600.png"></p>
+<h3 id="server"><a href="#server" class="headerlink" title="server"></a>server</h3><p>即服务器，代表整个 Tomcat 服务器，它要能够提供一个接口让其它程序能够访问到这个 Service 集合、同时要维护它所包含的所有 Service 的生命周期，包括如何初始化、如何结束服务、如何找到别人要访问的 Service。<br>一个 Tomcat 只有一个 Server Server 中包含至少一个 Service 组件，用于提供具体服务。</p>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><p>Service 主要是为了关联 Connector 和 Container，同时会初始化它下面的其它组件，在 Connector 和 Container 外面多包一层，把它们组装在一起，向外面提供服务，一个 Service 可以设置多个 Connector，但是只能有一个 Container 容器。</p>
+<p>Tomcat 中 Service 接口的标准实现类是 StandardService ，它不仅实现了 Service 借口同时还实现了 Lifecycle 接口，这样它就可以控制它下面的组件的生命周期了</p>
+<h2 id="connecter"><a href="#connecter" class="headerlink" title="connecter"></a>connecter</h2><p>Connector 组件是 Tomcat 中两个核心组件之一，它的主要任务是负责接收浏览器的发过来的 tcp 连接请求，创建一个 Request 和 Response 对象分别用于和请求端交换数据，然后会产生一个线程来处理这个请求并把产生的 Request 和 Response 对象传给处理这个请求的线程，处理这个请求的线程就是 Container 组件要做的事了。</p>
+<p>根据运行的逻辑图，我们也能看到连接器 connector 主要有三个功能：</p>
+<blockquote>
+<p>socket 通信<br>解析处理应用层协议，如将 socket 连接封装成 request 和 response 对象，后续交给 Container 来处理<br>将 Request 转换为 ServletRequest，将 Response 转换为 ServletResponse</p>
+</blockquote>
+<p>其中 Tomcat 设计了三个组件，其负责功能如下：</p>
+<ul>
+<li>EndPoint: 负责网络通信，将字节流传递给 Processor；</li>
+<li>Processor: 负责处理字节流生成 Tomcat Request 对象，将 Tomcat Request 对象传递给 Adapter；</li>
+<li>Adapter: 负责将 Tomcat Request 对象转化成 ServletRequest 对象，传递给容器。</li>
+</ul>
+<h2 id="Adapter组件"><a href="#Adapter组件" class="headerlink" title="Adapter组件"></a>Adapter组件</h2><p><strong>Adapter 组件</strong>一般叫<strong>适配器组件</strong>，核心作用是：<strong>把“不兼容的接口”转换成系统能识别、能调用的形式。</strong></p>
+<ol>
+<li><strong>Adapter 在设计模式里的意思</strong><br>假设系统原本只认识这个接口：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Target</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是现在有一个旧类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OldService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">oldRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;旧方法执行&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>旧类的方法叫 <code>oldRequest()</code>，不是系统需要的 <code>request()</code>。<br>这时候就可以写一个 Adapter：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OldServiceAdapter</span> <span class="keyword">implements</span> <span class="title class_">Target</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">OldService</span> <span class="variable">oldService</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OldService</span>();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">request</span><span class="params">()</span> &#123;</span><br><span class="line">        oldService.oldRequest();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用时：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Target</span> <span class="variable">target</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OldServiceAdapter</span>();</span><br><span class="line">target.request();</span><br></pre></td></tr></table></figure>
+<p>表面调用的是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">request()</span><br></pre></td></tr></table></figure>
+<p>实际执行的是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oldRequest()</span><br></pre></td></tr></table></figure>
+<p>这就是适配器的作用。<br>2. <strong>Adapter 在 Spring MVC 里的意思</strong><br>Spring MVC 请求流程大概是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">浏览器请求</span><br><span class="line">   ↓</span><br><span class="line">DispatcherServlet</span><br><span class="line">   ↓</span><br><span class="line">HandlerMapping 找到 Controller</span><br><span class="line">   ↓</span><br><span class="line">HandlerAdapter 调用 Controller</span><br><span class="line">   ↓</span><br><span class="line">Controller 返回结果</span><br><span class="line">   ↓</span><br><span class="line">ViewResolver / JSON 响应</span><br></pre></td></tr></table></figure>
+<p>其中 <strong>HandlerAdapter 的作用</strong>是：<br><strong>负责真正调用 Controller。</strong></p>
+<p>一个总的 Tomcat Connector 功能如图所示<br><img src="/images/Pasted%20image%2020260430101543.png"></p>
+<h2 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h2><p>针对 <strong>Tomcat</strong> 来说，<strong>Container</strong> 指的就是 Tomcat 内部用来<strong>管理 Web 应用、Servlet、请求分发</strong>的一套容器体系。<br>可以理解为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Tomcat</span><br><span class="line"> └── 一个或多个服务 Service</span><br><span class="line">      ├── 连接器 Connector：接收 HTTP 请求</span><br><span class="line">      └── 容器 Container：处理请求、找到应用和 Servlet</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Server：整个Tomcat<br><strong>Server</strong> 代表整个 Tomcat 服务器。<br>它是最外层组件，负责管理 Tomcat 的生命周期，比如启动、关闭。</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Server = 整个 Tomcat 实例</span><br></pre></td></tr></table></figure>
+<p>一个 Tomcat 通常只有一个 Server。</p>
+<ol start="2">
+<li>Service：一组Connector+一个Container<br><strong>Service</strong> 可以理解成 Tomcat 里的一套服务组合。<br>它包含：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">多个 Connector + 一个 Engine</span><br></pre></td></tr></table></figure>
+<p>比如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HTTP Connector 监听 8080</span><br><span class="line">AJP Connector 监听 8009</span><br><span class="line">它们都把请求交给同一个 Engine 处理</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Connector ：连接器，负责连接请求<br><strong>Connector</strong> 不属于 Container 本身，但它和 Container 配合工作。<br>它负责：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">监听端口</span><br><span class="line">接收 HTTP 请求</span><br><span class="line">解析 HTTP 协议</span><br><span class="line">封装 Request / Response</span><br><span class="line">交给 Container 处理</span><br></pre></td></tr></table></figure>
+<p>比如你访问：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/demo/hello</span><br></pre></td></tr></table></figure>
+<p>首先接到请求的是 Connector。</p>
+<ol start="4">
+<li>Engine：顶层容器<br><strong>Engine</strong> 是 Tomcat 的顶层 Container。<br>它负责在多个虚拟主机中选择一个 Host。</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Engine = 请求处理引擎</span><br></pre></td></tr></table></figure>
+<p>比如同一个 Tomcat 可以配置多个域名：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">www.a.com</span><br><span class="line">www.b.com</span><br></pre></td></tr></table></figure>
+<p>Engine 会根据请求的 Host 头判断交给哪个 Host。</p>
+<ol start="5">
+<li>Host：虚拟主机<br><strong>Host</strong> 代表一个虚拟主机，也就是一个域名或主机环境。<br>比如：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">localhost</span><br><span class="line">www.example.com</span><br></pre></td></tr></table></figure>
+<p>一个 Host 下面可以部署多个 Web 应用。<br>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host: localhost</span><br><span class="line"> ├── /demo</span><br><span class="line"> ├── /shop</span><br><span class="line"> └── /admin</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>Context：一个 Web 应用<br><strong>Context</strong> 是最常见、最重要的一个概念。<br>在 Tomcat 里：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一个 Context = 一个 Web 项目</span><br></pre></td></tr></table></figure>
+<p>比如访问：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/demo/hello</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/demo  → Context，也就是 Web 应用</span><br><span class="line">/hello → Servlet 映射路径</span><br></pre></td></tr></table></figure>
+<p>如果你部署了一个 <code>demo.war</code>，Tomcat 通常会生成一个 <code>/demo</code> 的 Context。</p>
+<ol start="7">
+<li>Wrapper：一个 Servlet<br><strong>Wrapper</strong> 是最小的 Container。<br>在 Tomcat 里： 一个 Wrapper &#x3D; 一个 Servlet<br>比如：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/hello&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloServlet</span> <span class="keyword">extends</span> <span class="title class_">HttpServlet</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Tomcat 内部会为这个 Servlet 创建一个 Wrapper。<br>Wrapper 负责管理这个 Servlet 的生命周期：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">加载 Servlet 类</span><br><span class="line">创建 Servlet 实例</span><br><span class="line">调用 init()</span><br><span class="line">调用 service()</span><br><span class="line">调用 destroy()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Tomcat-请求处理流程"><a href="#Tomcat-请求处理流程" class="headerlink" title="Tomcat 请求处理流程"></a><strong>Tomcat 请求处理流程</strong></h3><p>假如访问：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/demo/hello</span><br></pre></td></tr></table></figure>
+<p>大致流程是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">浏览器</span><br><span class="line">   ↓</span><br><span class="line">Connector 接收请求</span><br><span class="line">   ↓</span><br><span class="line">Engine 选择 Host</span><br><span class="line">   ↓</span><br><span class="line">Host 选择 Context：/demo</span><br><span class="line">   ↓</span><br><span class="line">Context 选择 Wrapper：/hello 对应的 Servlet</span><br><span class="line">   ↓</span><br><span class="line">执行 Filter 链</span><br><span class="line">   ↓</span><br><span class="line">Wrapper 调用 Servlet.service()</span><br><span class="line">   ↓</span><br><span class="line">Servlet 返回响应</span><br><span class="line">   ↓</span><br><span class="line">Connector 把响应写回浏览器</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tomcat-的类的加载机制"><a href="#Tomcat-的类的加载机制" class="headerlink" title="Tomcat 的类的加载机制"></a>Tomcat 的类的加载机制</h2><p>由于 Tomcat 中有多个 WebApp 同时要确保之间相互隔离，所以 Tomcat 的类加载机制也不是传统的双亲委派机制。</p>
+<p>Tomcat 自定义的类加载器 WebAppClassloader 为了确保隔离多个 WebApp 之间相互隔离，所以打破了双亲委托机制。每个 WebApp 用一个独有的 ClassLoader 实例来优先处理加载。它首先尝试自己加载某个类，如果找不到再交给父类加载器，其目的是优先加载 WEB 应用自己定义的类。</p>
+<p>同时为了防止 WEB 应用自己的类覆盖 JRE 的核心类，在本地 WEB 应用目录下查找之前，先使用 ExtClassLoader（使用双亲委托机制）去加载，这样既打破了双亲委托，同时也能安全加载类。</p>
+<hr>
+<p>参考资料：<br><a target="_blank" rel="noopener" href="https://drun1baby.top/2022/08/19/Java%E5%86%85%E5%AD%98%E9%A9%AC%E7%B3%BB%E5%88%97-01-%E5%9F%BA%E7%A1%80%E5%86%85%E5%AE%B9%E5%AD%A6%E4%B9%A0/">Java内存马系列-01-基础内容学习</a></p>
+
+          
+          <div style="margin-top: 50px;">
+            <script src="https://giscus.app/client.js"
+              data-repo="Licivo/Licivo.github.io"
+              data-repo-id="R_kgDOOQU8CQ"
+              data-category="Announcements"
+              data-category-id="DIC_kwDOOQU8Cc4C0Pub"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="preferred_color_scheme"
+              data-lang="zh-CN"
+              crossorigin="anonymous"
+              async>
+            </script>
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/04/16/CC7%20%E9%93%BE/"
+      title="Java 反序列化之 CC7链"
+     >
+
+    <p class="title-text">
+      
+        Java 反序列化之 CC7链
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2026 Licivo<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+<div class="footer-statistics" style="margin-top: 15px; font-size: 0.85rem; color: #888; text-align: center;">
+  <span id="busuanzi_container_site_pv" style="display: none;">
+    <i class="fa-solid fa-chart-line"></i> 总访问量: <span id="busuanzi_value_site_pv" style="color: var(--color-primary); font-weight: bold;"></span> 次
+  </span>
+  <span style="margin: 0 10px; opacity: 0.3;">|</span>
+  <span id="busuanzi_container_site_uv" style="display: none;">
+    <i class="fa-solid fa-users"></i> 总访客数: <span id="busuanzi_value_site_uv" style="color: var(--color-primary); font-weight: bold;"></span> 人
+  </span>
+
+  <div style="margin-top: 10px;">
+    <a target="_blank" rel="noopener" href="https://info.flagcounter.com/xxxx" style="display:inline-block;">
+      <img src="https://s11.flagcounter.com/mini/licivo/bg_FFFFFF/txt_000000/border_CCCCCC/flags_0/" alt="Flag Counter" border="0">
+    </a>
+    </div>
+</div>
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+
+  <script src="/js/light-dark-switch.js"></script>
+
+  <div id="search-form-wrap" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 99999; justify-content: center; align-items: flex-start; padding-top: 80px;">
+    <div class="search-container" style="background: var(--color-background, #fff); width: 90%; max-width: 600px; max-height: 80vh; border-radius: 16px; padding: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden;">
+      <div class="search-header" style="display: flex; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 10px;">
+        <input type="text" id="search-input" style="flex: 1; border: none; outline: none; font-size: 1.1rem; background: transparent; color: var(--color-text);" placeholder="搜索文章标题或内容...">
+        <i id="search-close-btn" class="fa-solid fa-xmark" style="cursor: pointer; color: #999; font-size: 1.2rem; margin-left: 10px;"></i>
+      </div>
+      <div id="search-result" style="overflow-y: auto; flex: 1;">
+        </div>
+    </div>
+  </div>
+
+  <style>
+    .search-result-list { list-style: none; padding: 5px; margin: 0; }
+    .search-result-item { padding: 15px; margin-bottom: 12px; background: rgba(0,0,0,0.02); border-radius: 10px; transition: all 0.2s ease; border: 1px solid transparent; }
+    .search-result-item:hover { background: rgba(0,0,0,0.04); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); border-color: var(--color-primary); }
+    .search-result-title { font-size: 1.1rem; font-weight: 600; color: var(--color-primary, #4a90e2); text-decoration: none; display: block; margin-bottom: 8px; }
+    .search-result-content { font-size: 0.95rem; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .search-keyword { color: #e91e63; background: rgba(233, 30, 99, 0.08); padding: 0 4px; border-radius: 4px; font-weight: bold; font-style: normal; }
+    
+    /* 深色模式适配 */
+    [data-theme="dark"] .search-container { background: #222; border: 1px solid #444; }
+    [data-theme="dark"] .search-result-item { background: rgba(255,255,255,0.05); }
+    [data-theme="dark"] .search-result-item:hover { background: rgba(255,255,255,0.08); }
+    [data-theme="dark"] .search-result-content { color: #aaa; }
+    
+    /* 滚动条美化 */
+    #search-result::-webkit-scrollbar { width: 6px; }
+    #search-result::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchBtn = document.getElementById('nav-search-btn');
+      const searchForm = document.getElementById('search-form-wrap');
+      const searchClose = document.getElementById('search-close-btn');
+      const searchInput = document.getElementById('search-input');
+      const searchResult = document.getElementById('search-result');
+
+      if (!searchBtn || !searchForm) return;
+
+      // 1. 弹出逻辑：增加 e.preventDefault() 解决跳转问题
+      searchBtn.onclick = function(e) {
+        e.preventDefault(); // 阻止默认的跳转到页面末尾的行为
+        searchForm.style.display = 'flex';
+        searchInput.focus();
+        if (!window.searchData) loadSearchData();
+      };
+
+      searchClose.onclick = () => { searchForm.style.display = 'none'; };
+      
+      // 点击遮罩层（弹窗外）关闭
+      searchForm.onclick = (e) => { 
+        if(e.target === searchForm) searchForm.style.display = 'none'; 
+      };
+
+      // 按下 Esc 键关闭
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') searchForm.style.display = 'none';
+      });
+
+      // 2. 搜索逻辑 (Local Search)
+      async function loadSearchData() {
+        searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">正在加载索引...</div>';
+        try {
+          const res = await fetch('/search.xml');
+          const text = await res.text();
+          const xml = new DOMParser().parseFromString(text, "text/xml");
+          window.searchData = Array.from(xml.querySelectorAll('entry')).map(entry => ({
+            title: entry.querySelector('title').textContent,
+            content: entry.querySelector('content').textContent.replace(/<[^>]+>/g, ''), // 过滤 HTML 标签
+            url: entry.querySelector('url').textContent
+          }));
+          searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">索引加载完成</div>';
+        } catch (err) {
+          searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:red;">索引加载失败，请检查 search.xml</div>';
+        }
+      }
+
+      searchInput.oninput = function() {
+        const val = this.value.trim().toLowerCase();
+        if (val.length < 2) { searchResult.innerHTML = ""; return; }
+        
+        const results = window.searchData.filter(data => 
+          data.title.toLowerCase().includes(val) || data.content.toLowerCase().includes(val)
+        );
+
+        if (results.length === 0) {
+          searchResult.innerHTML = '<div style="padding:20px; text-align:center; color:#999;">未找到相关文章</div>';
+          return;
+        }
+
+        searchResult.innerHTML = `<ul class="search-result-list">${results.map(data => `
+          <li class="search-result-item">
+            <a href="${data.url}" class="search-result-title">${data.title.replace(new RegExp(val, 'gi'), m => `<em class="search-keyword">${m}</em>`)}</a>
+            <p class="search-result-content">${data.content.substring(0, 150)}...</p>
+          </li>`).join('')}</ul>`;
+      };
+    });
+  </script>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+</html>
