@@ -185,6 +185,11 @@ document.addEventListener('keydown', function(e) {
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
+            <a class="category-link" href="/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/">
+                Java 内存马
+                <div class="category-count">3</div>
+            </a>
+        
             <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
                 Java 反序列化
                 <div class="category-count">9</div>
@@ -200,19 +205,14 @@ document.addEventListener('keydown', function(e) {
                 <div class="category-count">2</div>
             </a>
         
-            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
-                LLM安全
-                <div class="category-count">1</div>
-            </a>
-        
-            <a class="category-link" href="/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/">
-                Java 内存马
-                <div class="category-count">1</div>
-            </a>
-        
             <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
                  云安全
                 <div class="category-count">2</div>
+            </a>
+        
+            <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
+                LLM安全
+                <div class="category-count">1</div>
             </a>
         </div>
     </div>
@@ -228,6 +228,175 @@ document.addEventListener('keydown', function(e) {
     </div>
     <div id="content-body">
       
+   
+
+
+<article id="post-03 Tomcat 之 Filter 型内存马" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/05/09/03%20Tomcat%20%E4%B9%8B%20Filter%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/">03Tomcat 之 Filter 型内存马</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-05-09T08:56:59.984Z" itemprop="datePublished">2026-05-09</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/">Java 内存马</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            16k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              0x01 认识Filter过滤器在Java Web中，Filter（过滤器）是Servlet规范中定义的一种组件，它可以对Web应用程序的请求和响应进行预处理和后处理。Filter在请求到达Servlet之前拦截请求，在响应返回给客户端之前拦截响应。Filter可以用于很多场景，比如日志记录、安全控制（比如常见的XSS防护等）、字符编码转换、数据压缩等。
+0x02 Filter的加载过程1.启动Web应用时： 容器（如Tomcat）会读取web.xml（或通过注解@WebFilter）中配置的Filter，并按照配置的顺序加载和初始化Filter。每个Filter都会调用其init方法，进行一些初始化操作。
+2.请求到达时： 当请求到达容器时，容器会根据web.xml中配置的URL映射，决定哪些Filter需要被执行。这些Filter会按照配置的顺序组成一个过滤器链（FilterChain）。
+3.执行过滤器链： 容器会依次调用链中每个Filter的doFilter方法，并将请求和响应对象作为参数传递，同时传递过滤器链对象。在Filter的doFilter方法中，开发者可以对请求...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/05/09/03%20Tomcat%20%E4%B9%8B%20Filter%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
+   
+
+
+<article id="post-02 内存马介绍" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/04/30/02%20%E5%86%85%E5%AD%98%E9%A9%AC%E4%BB%8B%E7%BB%8D/">02内存马介绍</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-04-30T05:43:31.816Z" itemprop="datePublished">2026-04-30</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/">Java 内存马</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            5.6k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              内存马三大类型
+
+servlet-api类
+filter型
+servlet型
+
+
+spring类
+拦截器
+controller型
+
+
+Java Instrumentation类
+agent型
+
+
+
+JSP基础JSP 基础什么是 JSPJSP（Java Server Pages），是Java的一种动态网页技术。在早期Java的开发技术中，Java程序员如果想要向浏览器输出一些数据，就必须得手动println一行行的HTML代码。为了解决这一繁琐的问题，Java开发了JSP技术。
+JSP可以看作一个Java Servlet，主要用于实现Java web应用程序的用户界面部分。网页开发者们通过结合HTML代码、XHTML代码、XML元素以及嵌入JSP操作和命令来编写JSP。
+当第一次访问JSP页面时，Tomcat服务器会将JSP页面翻译成一个java文件，并将其编译为.class文件。JSP通过网页表单获取用户输入数据、访问数据库及其他数据源，然后动态地创建网页。
+JSP 环境的搭建
+java 8u65
+tomcatIDEA 新启起一个 JAVA 项目选择 Maven目录设置成如下其中...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/04/30/02%20%E5%86%85%E5%AD%98%E9%A9%AC%E4%BB%8B%E7%BB%8D/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
    
 
 
@@ -878,156 +1047,6 @@ Manifest (清单)： 这是漏洞的关键。它包含了压缩文件的属性�
     <a class="right-panel  non-pic  "
       
       href="/2026/01/20/PHAR%20%E6%B3%A8%E5%85%A5/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-   
-
-
-<article id="post-CSRF 漏洞原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2026/01/15/CSRF%20%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/">CSRF 漏洞原理</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2026-01-15T03:05:43.953Z" itemprop="datePublished">2026-01-15</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">WEB安全</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            3.8k 词 
-          </div>
-
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              CSRF（跨站请求伪造）通过诱导已登录用户在不知情的情况下发起状态改变请求，如修改邮箱。已登录的用户在登录的情况下，本地一般会存储 cookie受害者在不知情的情况下进入了攻击者精心布置的网站中发起了状态改变的请求
-经典攻击流程12345678910111. 用户登录银行网站(example-bank.com)   → 获得会话Cookie：sessionid=abc1232. 用户访问攻击者控制的恶意网站   → 页面包含隐藏表单或自动提交脚本3. 浏览器自动发送请求到银行   → 携带用户的合法Cookie：sessionid=abc1234. 银行验证Cookie有效   → 执行转账操作，资金转到攻击者账户
-
-CSRF的攻击类型1. GET 型 CSRFA.&lt;img&gt; 标签 (最常用，静默触发)
-这是最隐蔽的方式，因为浏览器会自动尝试加载图片的 src 属性。
-1&lt;img src=&quot;http://php-code-sec.host/delete_user.php?id=10&quot; style=&quot;display:none;&quo...
-            
-          </div>
-        
-      </div>
-
-          
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2026/01/15/CSRF%20%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-   
-
-
-<article id="post-PHP-Code-Sec" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2026/01/15/PHP-Code-Sec/">PHP-Code-Sec审计</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2026-01-15T01:42:56.597Z" itemprop="datePublished">2026-01-15</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"> 代码审计</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            18k 词 
-          </div>
-
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              环境准备在本地部署好了靶场由于是 php 原生的网站，所以路由这方面分析起来就非常的简单了，每个功能都在 modules 下对应着，照着文件路径即可
-入口处 index.php1234567891011121314151617&lt;?php require_once __DIR__ . &#x27;/core/init.php&#x27;; ?&gt;&lt;header class=&quot;nav&quot;&gt;    &lt;div class=&quot;brand&quot;&gt;PHP&lt;span class=&quot;accent&quot;&gt;-Code&lt;/span&gt;-Sec&lt;/div&gt;    &lt;div class=&quot;links&quot;&gt;      &lt;a href=&quot;/&quot;&gt;首页&lt;/a&gt;      &lt;a href=&quot;/profile.php&quot;&gt;个人中心&lt;/a&gt;      &lt;a href=&quot;/wr...
-            
-          </div>
-        
-      </div>
-
-          
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2026/01/15/PHP-Code-Sec/" 
     >
        
       <i class="fa-solid fa-angle-right non-pic"></i>
