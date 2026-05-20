@@ -187,7 +187,7 @@ document.addEventListener('keydown', function(e) {
       <div class="category-box">
             <a class="category-link" href="/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/">
                 Java 内存马
-                <div class="category-count">3</div>
+                <div class="category-count">4</div>
             </a>
         
             <a class="category-link" href="/categories/Java-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
@@ -200,13 +200,13 @@ document.addEventListener('keydown', function(e) {
                 <div class="category-count">2</div>
             </a>
         
-            <a class="category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
-                 代码审计
+            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                 云安全
                 <div class="category-count">2</div>
             </a>
         
-            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
-                 云安全
+            <a class="category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
+                 代码审计
                 <div class="category-count">2</div>
             </a>
         
@@ -228,6 +228,87 @@ document.addEventListener('keydown', function(e) {
     </div>
     <div id="content-body">
       
+   
+
+
+<article id="post-04 Tomcat 之 LIstener 型内存马" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/05/20/04%20Tomcat%20%E4%B9%8B%20LIstener%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/">Tomcat 之 LIstener 型内存马</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-05-20T02:21:28.919Z" itemprop="datePublished">2026-05-20</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/">Java 内存马</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            7.4k 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              0x01 Listener基础知识Java Web 开发中的监听器（Listener）就是 Application、Session 和 Request 三大对象创建、销毁或者往其中添加、修改、删除属性时自动执行代码的功能组件。
+用途可以使用监听器监听客户端的请求、服务端的操作等，通过监听器可以发出一些动作，比如监听在线用户的数量，统计网站访问量，网站访问监控等等。
+0x02 Listener 三个域对象
+ServletContextListener
+HttpSessionListener
+ServletRequestListener
+
+很明显，ServletRequestListener 是最适合用来作为内存马的。因为 ServletRequestListener 是用来监听 ServletRequest对 象的，当我们访问任意资源时，都会触发ServletRequestListener#requestInitialized()方法。下面我们来实现一个恶意的 Listener
+0x03 Listener基础代码实现
+和之前 Filter 型内存马的原理其实是一样的，之前我们说到 ...
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/05/20/04%20Tomcat%20%E4%B9%8B%20LIstener%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
    
 
 
@@ -969,84 +1050,6 @@ kube-controller-manager
     <a class="right-panel  non-pic  "
       
       href="/2026/01/21/ThinkPHP_5.0.23/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
-   
-
-
-<article id="post-PHAR 注入" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2026/01/20/PHAR%20%E6%B3%A8%E5%85%A5/">PHAR 注入</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2026-01-20T06:20:52.001Z" itemprop="datePublished">2026-01-20</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/WEB%E5%AE%89%E5%85%A8/">WEB安全</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            2.5k 词 
-          </div>
-
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              PHAR 注入（也称为 PHAR 反序列化漏洞）是一种高级的 PHP 安全漏洞攻击技术。它的核心概念是：利用 PHP 的 phar:// 伪协议在处理 PHAR 文件时，会自动反序列化其元数据（Metadata）的特性，从而在没有显式调用 unserialize() 函数的情况下，触发反序列化漏洞。
-这通常被攻击者用来绕过代码审计，因为审计人员通常只盯着 unserialize() 找漏洞，而忽略了文件操作函数（如 file_exists）。
-1. 什么是 PHAR 文件？PHAR (PHP Archive) 是 PHP 的一种归档文件格式（类似于 Java 的 JAR 包）。它允许将多个 PHP 文件、资源和配置打包成一个文件。
-一个标准的 PHAR 文件由四个部分组成：
-
-Stub (存根)： PHAR 文件的头部标识。必须以 __HALT_COMPILER(); 结尾。PHP 通过这个标识来识别这是不是一个 PHAR 文件。
-Manifest (清单)： 这是漏洞的关键。它包含了压缩文件的属性、权限等信息，以及用户自定义的元数据 (Metadata)。这些元数据是以 序列化...
-            
-          </div>
-        
-      </div>
-
-          
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2026/01/20/PHAR%20%E6%B3%A8%E5%85%A5/" 
     >
        
       <i class="fa-solid fa-angle-right non-pic"></i>
