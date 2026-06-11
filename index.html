@@ -200,18 +200,23 @@ document.addEventListener('keydown', function(e) {
                 <div class="category-count">2</div>
             </a>
         
-            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
-                 云安全
-                <div class="category-count">2</div>
-            </a>
-        
             <a class="category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
                  代码审计
                 <div class="category-count">2</div>
             </a>
         
+            <a class="category-link" href="/categories/%E4%BA%91%E5%AE%89%E5%85%A8/">
+                 云安全
+                <div class="category-count">2</div>
+            </a>
+        
             <a class="category-link" href="/categories/LLM%E5%AE%89%E5%85%A8/">
                 LLM安全
+                <div class="category-count">1</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                 渗透测试
                 <div class="category-count">1</div>
             </a>
         </div>
@@ -228,6 +233,80 @@ document.addEventListener('keydown', function(e) {
     </div>
     <div id="content-body">
       
+   
+
+
+<article id="post-记一次Token复用导致接管web管理员" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 itemprop="name">
+        <a class="p-name article-title" href="/2026/06/08/%E8%AE%B0%E4%B8%80%E6%AC%A1Token%E5%A4%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E6%8E%A5%E7%AE%A1web%E7%AE%A1%E7%90%86%E5%91%98/">记一次Token复用导致接管web管理员</a>
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-06-08T01:45:09.040Z" itemprop="datePublished">2026-06-08</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"> 渗透测试</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            122 词 
+          </div>
+
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <div class="truncate-text">
+            
+              登录其他弱口令站点–获取其他站点token–复用本站点写脚本爆破同类型站点的弱口令，获得 token 后对目标站点进行测试，发现可以复用 token
+对请求头的内容进行更改将空的token替换成其他站点拿到的token可以访问后台，并访问后台接口，如：
+
+            
+          </div>
+        
+      </div>
+
+          
+    </div>
+    
+     
+    <a class="right-panel  non-pic  "
+      
+      href="/2026/06/08/%E8%AE%B0%E4%B8%80%E6%AC%A1Token%E5%A4%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E6%8E%A5%E7%AE%A1web%E7%AE%A1%E7%90%86%E5%91%98/" 
+    >
+       
+      <i class="fa-solid fa-angle-right non-pic"></i>
+       
+    </a>
+     
+  </div>
+  
+</article>
+
+
+
+
+
    
 
 
@@ -992,78 +1071,6 @@ kube-controller-manager
 
 
 
-   
-
-
-<article id="post-ThinkPHP_5.0.23" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-   
-  <div class="article-inner">
-    <div class="article-main">
-      <header class="article-header">
-        
-<div class="main-title-bar">
-  <div class="main-title-dot"></div>
-  
-    
-      <h1 itemprop="name">
-        <a class="p-name article-title" href="/2026/01/21/ThinkPHP_5.0.23/">ThinkPHP_5.0.23</a>
-      </h1>
-    
-  
-</div>
-
-        <div class='meta-info-bar'>
-          <div class="meta-info">
-  <time class="dt-published" datetime="2026-01-21T08:48:17.697Z" itemprop="datePublished">2026-01-21</time>
-</div>
-          <div class="need-seperator meta-info">
-            <div class="meta-cate-flex">
-  
-  <a class="meta-cate-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"> 代码审计</a>
-   
-</div>
-  
-          </div>
-          <div class="wordcount need-seperator meta-info">
-            23k 词 
-          </div>
-
-          
-        </div>
-        
-      </header>
-
-      <div class="e-content article-entry" itemprop="articleBody">
-        
-          <div class="truncate-text">
-            
-              目录结构123456789101112131415161718192021222324252627282930313233343536373839404142434445www  WEB部署目录（或者子目录）├─application           应用目录│  ├─common             公共模块目录（可以更改）│  ├─module_name        模块目录│  │  ├─config.php      模块配置文件│  │  ├─common.php      模块函数文件│  │  ├─controller      控制器目录│  │  ├─model           模型目录│  │  ├─view            视图目录│  │  └─ ...            更多类库目录│  ││  ├─command.php        命令行工具配置文件│  ├─common.php         公共函数文件│  ├─config.php         公共配置文件│  ├─route.php          路由配置文...
-            
-          </div>
-        
-      </div>
-
-          
-    </div>
-    
-     
-    <a class="right-panel  non-pic  "
-      
-      href="/2026/01/21/ThinkPHP_5.0.23/" 
-    >
-       
-      <i class="fa-solid fa-angle-right non-pic"></i>
-       
-    </a>
-     
-  </div>
-  
-</article>
-
-
-
-
-
 
   <nav id="page-nav">
     <!-- 在第二页时 page.prev_link 不知为何无法返回正确的链接 -->
@@ -1071,7 +1078,7 @@ kube-controller-manager
       <i class="fa-solid fa-angle-left"></i>
     </a>
     <div id="num-bar">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a>  
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a>  
     </div>
     <a id="next-btn" class="page-nav-btn " href="/page/2/">
       <i class="fa-solid fa-angle-right"></i>

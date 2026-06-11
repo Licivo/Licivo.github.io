@@ -14,19 +14,28 @@
   
 
   
-  <title>目录: Java 内存马 | Licivo&#39;s Blog</title>
+  <title>记一次Token复用导致接管web管理员 | Licivo&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
   <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Licivo&#39;s Blog">
-<meta property="og:url" content="http://example.com/categories/Java-%E5%86%85%E5%AD%98%E9%A9%AC/index.html">
+  <meta name="description" content="登录其他弱口令站点–获取其他站点token–复用本站点写脚本爆破同类型站点的弱口令，获得 token 后对目标站点进行测试，发现可以复用 token 对请求头的内容进行更改将空的token替换成其他站点拿到的token可以访问后台，并访问后台接口，如：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次Token复用导致接管web管理员">
+<meta property="og:url" content="http://example.com/2026/06/08/%E8%AE%B0%E4%B8%80%E6%AC%A1Token%E5%A4%8D%E7%94%A8%E5%AF%BC%E8%87%B4%E6%8E%A5%E7%AE%A1web%E7%AE%A1%E7%90%86%E5%91%98/index.html">
 <meta property="og:site_name" content="Licivo&#39;s Blog">
+<meta property="og:description" content="登录其他弱口令站点–获取其他站点token–复用本站点写脚本爆破同类型站点的弱口令，获得 token 后对目标站点进行测试，发现可以复用 token 对请求头的内容进行更改将空的token替换成其他站点拿到的token可以访问后台，并访问后台接口，如：">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260608094619.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260608094829.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260608094819.png">
+<meta property="og:image" content="http://example.com/images/Pasted%20image%2020260608094945.png">
+<meta property="article:published_time" content="2026-06-08T01:45:09.040Z">
+<meta property="article:modified_time" content="2026-06-08T01:49:45.886Z">
 <meta property="article:author" content="Licivo">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/Pasted%20image%2020260608094619.png">
   
     <link rel="alternate" href="/atom.xml" title="Licivo's Blog" type="application/atom+xml">
   
@@ -234,101 +243,117 @@ document.addEventListener('keydown', function(e) {
     <div id="content-body">
        
 
-<div class="archive-main-card">
-    <div class="archive-top">
-      <div class="main-title-bar">
-        <div class="main-title-dot"></div>
-        <h1 class="article-title">归档</h1>
-      </div>    
+
+<article id="post-记一次Token复用导致接管web管理员" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        记一次Token复用导致接管web管理员
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2026-06-08T01:45:09.040Z" itemprop="datePublished">2026-06-08</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"> 渗透测试</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            122 词 
+          </div>
+
+          
+          <div class="need-seperator meta-info">
+            <i class="fa-solid fa-fire-flame-curved" style="color: #ff5722; margin-right: 8px;"></i>
+            <span id="busuanzi_container_page_pv" style="display: none;">
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          </div>
+          
+        </div>
+        
+      </header>
+
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>登录其他弱口令站点–获取其他站点token–复用本站点<br>写脚本爆破同类型站点的弱口令，获得 token 后对目标站点进行测试，发现可以复用 token<br><img src="/images/Pasted%20image%2020260608094619.png"></p>
+<p>对请求头的内容进行更改<br><img src="/images/Pasted%20image%2020260608094829.png"><br>将空的token替换成其他站点拿到的token<br><img src="/images/Pasted%20image%2020260608094819.png"><br>可以访问后台，并访问后台接口，如：<br><img src="/images/Pasted%20image%2020260608094945.png"></p>
+
+          
+          <div style="margin-top: 50px;">
+            <script src="https://giscus.app/client.js"
+              data-repo="Licivo/Licivo.github.io"
+              data-repo-id="R_kgDOOQU8CQ"
+              data-category="Announcements"
+              data-category-id="DIC_kwDOOQU8Cc4C0Pub"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="preferred_color_scheme"
+              data-lang="zh-CN"
+              crossorigin="anonymous"
+              async>
+            </script>
+          </div>
+        
+      </div>
+
+          
     </div>
     
-    
-      
-      
-        
-        <div class="year-line">
-            <div class="year-num">2026</div>
-            <div class="dot-wrapper">
-                <div class="dot"></div>
-            </div>
-            <div class="article-count">4 篇文章</div>
-        </div>
-      
-      <a class="archive-article-link" href="/2026/05/20/04%20Tomcat%20%E4%B9%8B%20LIstener%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/" title="Tomcat 之 LIstener 型内存马">
-        <div class="date">05-20</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    Tomcat 之 LIstener 型内存马
-                
-            </div>
-        </div>
-        <div class="tags">
-            
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2026/05/09/03%20Tomcat%20%E4%B9%8B%20Filter%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/" title="03Tomcat 之 Filter 型内存马">
-        <div class="date">05-09</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    03Tomcat 之 Filter 型内存马
-                
-            </div>
-        </div>
-        <div class="tags">
-            
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2026/04/30/02%20%E5%86%85%E5%AD%98%E9%A9%AC%E4%BB%8B%E7%BB%8D/" title="02内存马介绍">
-        <div class="date">04-30</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    02内存马介绍
-                
-            </div>
-        </div>
-        <div class="tags">
-            
-        </div>
-      </a>
-    
-      
-      
-      <a class="archive-article-link" href="/2026/04/29/Java%20%E5%86%85%E5%AD%98%E9%A9%AC%E7%B3%BB%E5%88%97%2001%20%E2%80%94%E2%80%94%E5%9F%BA%E7%A1%80%E5%86%85%E5%AE%B9%E5%AD%A6%E4%B9%A0/" title="Java 内存马系列 01 ——基础内容学习">
-        <div class="date">04-29</div>
-        <div class="line">
-            <div class="dot"></div>
-        </div>
-        <div class="title">
-            <div class="title-inner">
-                
-                    Java 内存马系列 01 ——基础内容学习
-                
-            </div>
-        </div>
-        <div class="tags">
-            
-        </div>
-      </a>
-    
+     
   </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left  disabled "
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2026/05/20/04%20Tomcat%20%E4%B9%8B%20LIstener%20%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC/"
+      title="Tomcat 之 LIstener 型内存马"
+     >
+
+    <p class="title-text">
+      
+        Tomcat 之 LIstener 型内存马
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
     </div>
     <div id="footer-wrapper">
       <footer id="footer">
